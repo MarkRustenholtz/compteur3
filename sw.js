@@ -1,11 +1,11 @@
 const CACHE_NAME = "cr-gend-cache-v5";
 const urlsToCache = [
-  "/",               // page principale
-  "/index.html",
+  "./.",               // page principale
+  "./index.html",
   './PV/index.html',
-  "/manifest.json",
-  "/icon-192.png",
-  "/icon-512.png",
+  "./manifest.json",
+  "./icon-192.png",
+  "./icon-512.png",
   "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
 ];
   
@@ -44,6 +44,7 @@ self.addEventListener("fetch", event => {
     })
   );
 });
+
 
 
 
