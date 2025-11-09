@@ -6,7 +6,7 @@ const urlsToCache = [
   "./manifest.json",
   "./icon-192.png",
   "./icon-512.png",
-  "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+  "./libs/qrcode.min.js"
 ];
   
 
@@ -44,6 +44,7 @@ self.addEventListener("fetch", event => {
     })
   );
 });
+
 
 
 
