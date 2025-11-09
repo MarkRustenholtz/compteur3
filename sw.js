@@ -1,6 +1,6 @@
 const CACHE_NAME = "cr-gend-cache-v5";
 const urlsToCache = [
-  "./.",               // page principale
+  "./",               // page principale
   "./index.html",
   './PV/index.html',
   "./manifest.json",
@@ -44,6 +44,7 @@ self.addEventListener("fetch", event => {
     })
   );
 });
+
 
 
 
