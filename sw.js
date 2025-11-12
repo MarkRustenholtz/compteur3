@@ -1,4 +1,4 @@
-const CACHE_NAME = "compt-cache-v8";
+const CACHE_NAME = "compt-cache-v9";
 const urlsToCache = [
   "./",               // page principale
   "./index.html",
@@ -44,6 +44,7 @@ self.addEventListener("fetch", event => {
     })
   );
 });
+
 
 
 
