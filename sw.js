@@ -1,4 +1,4 @@
-const CACHE_NAME = "compt-cache-v12";
+const CACHE_NAME = "compt-cache-v14";
 const urlsToCache = [
   "./",               // page principale
   "./index.html",
