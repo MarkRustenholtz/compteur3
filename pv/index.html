@@ -187,7 +187,7 @@ input, select, textarea {
   margin: 0 0 8mm 0;
 }
 
-.signzone {
+/*.signzone {
   margin-top: 16mm;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -197,8 +197,26 @@ input, select, textarea {
   min-height: 28mm;
   border-top: 1px solid #aaa;
   padding-top: 4mm;
+}*/
+
+.signzone {
+  margin-top: 16mm;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* deux colonnes */
+  gap: 20mm; /* ⬅️ espace horizontal entre les deux signatures */
+  width: 90%; /* pour recentrer un peu la zone */
+  margin-left: auto;
+  margin-right: auto;
 }
 
+.signcell {
+  min-height: 28mm;
+  border-top: 1px solid #000;
+  padding-top: 4mm;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.95em;
+}
 /* Impression */
 @media print {
   body>*:not(#sheet){display:none !important}
