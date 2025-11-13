@@ -2,1763 +2,2061 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>CR Gendarmerie</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<title>PV Interpellation — ESI</title>
 
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#2c3e50">
-<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#003366" />
+<link rel="apple-touch-icon" href="../icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<script src="./libs/qrcode.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-body {
-  font-family: verdana, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: #f0f2f5;
-  overflow-x: hidden;
-  color: #222;
-  min-height: 100vh;
-  box-sizing: border-box;
-  touch-action: manipulation;
+:root {
+  --brand:#003366;
+  --bg:#f4f6fa;
+  --text:#222;
+  --radius:18px;
+  --serif:"Times New Roman", Times, serif;
+  --ui:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
 }
 
-h1, h2, h3 { 
-  text-align: center;
-  color: #2c3e50;
+html, body {
+  margin:0; padding:0;
+  font-family:var(--ui);
+  background:var(--bg);
+  color:var(--text);
 }
 
-/* Boutons unifiés */
-button {
-  cursor: pointer;
-  font-weight: bold;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 12px;
-  font-size: 1em;
-  margin: 4px 2px;
-  min-width: 36px;
-  min-height: 36px;
-  user-select: none;
-  transition: background-color 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+header {
+  background:var(--brand);
+  color:white;
+  text-align:center;
+  padding:15px 10px;
+  font-weight:bold;
+  font-size:1.3em;
+  letter-spacing:0.5px;
+  box-shadow:0 2px 5px rgba(0,0,0,0.3);
+  position:sticky;
+  top:0;
+  z-index:100;
 }
 
-/* Boutons plus/minus plus gros comme Border Force */
-button.plusminus {
-  width: 50px;
-  height: 50px;
-  border-radius: 10px;
-  font-size: 1.6em;
-  background-color: #f0f0f0;
-  min-width: 50px;
-  min-height: 50px;
-}
-
-button.plusminus:hover { 
-  background-color: #ddd; 
-}
-
-button.plusminus.minus {
-  background-color: #e74c3c;
-  color: white;
-}
-button.plusminus.minus:hover {
-  background-color: #c0392b;
-}
-
-button.plusminus.plus {
-  background-color: #3498db;
-  color: white;
-}
-button.plusminus.plus:hover {
-  background-color: #2980b9;
-}
-
-button.add {
-  background-color: #27ae60;
-  color: white;
-}
-button.add:hover {
-  background-color: #229954;
-}
-
-button.red {
-  background-color: #e74c3c; 
-  color: white; 
-}
-button.red:hover { 
-  background-color: #c0392b; 
-}
-
-button.blue {
-  background-color: #3498db; 
-  color: white; 
-}
-button.blue:hover { 
-  background-color: #2980b9; 
-}
-
-button.green {
-  background-color: #27ae60; 
-  color: white; 
-}
-button.green:hover { 
-  background-color: #229954; 
-}
-
-/* Pages */
-.page {
-  display: none;
-  min-height: 100vh;
-  background: #f0f2f5;
-}
-
-.page.active {
-  display: block;
-}
-
-/* Page d'accueil */
-.home-page {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  text-align: center;
-  padding: 20px;
-}
-/* Page d'accueil : occupe tout l'écran sans scroll */
+/* MENU PRINCIPAL */
 #homePage {
-  width: 100vw;       /* pleine largeur écran */
-  height: 100vh;      /* pleine hauteur écran */
-   overflow-y: auto;    /* autorise le scroll vertical */
-  overflow-x: hidden;  /* évite le scroll horizontal */
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-.home-title {
-  color: white;
-  background-color: #003366;
-  padding: 20px;
-  margin: 0 -10px 30px -10px;
-  border-radius: 0;
-  font-size: 1.5em;
-  text-align: center;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:20px;
+  padding:25px;
+  max-width:700px;
+  margin:auto;
 }
 
-.home-menu {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  justify-items: center;
-  margin-top: 20px;
+.menu-btn {
+  background:white;
+  border-radius:var(--radius);
+  padding:25px 10px;
+  text-align:center;
+  box-shadow:0 3px 8px rgba(0,0,0,0.15);
+  transition:all 0.2s ease;
+  border:2px solid transparent;
+}
+.menu-btn:hover {
+  transform:scale(1.03);
+  border-color:var(--brand);
+}
+.menu-btn i {
+  font-size:2em;
+  margin-bottom:10px;
+  color:var(--brand);
+}
+.menu-btn span {
+  display:block;
+  font-weight:600;
+  color:var(--brand);
 }
 
-.icon-button {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 120px;
-  height: 120px;
-  border-radius: 20px;
-  background: #ffffff;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border: none;
-  font-family: inherit;
+/* SECTIONS */
+section {
+  display:none;
+  padding:20px;
+  max-width:980px;
+  margin:auto;
+}
+section.active { display:block; }
+
+.grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-bottom:12px;
+  }
+fieldset {
+  border:1px solid #d0d7de;
+  border-radius:10px;
+  padding:12px;
+  background:#a8c7ff;
+  
 }
 
-.icon-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+legend {
+  padding:0 8px;
+  color:#111;
+  font-weight:700;
 }
 
-.icon-button i {
-  font-size: 40px;
-  margin-bottom: 8px;
-}
-
-.icon-button span {
-  font-size: 14px;
-  font-weight: bold;
-  color: #333;
-  text-align: center;
-}
-
-/* Couleurs icônes */
-.icon-esr i { color: #2ecc71; }
-.icon-compteurs i { color: #9b59b6; }
-.icon-fiche i { color: #e74c3c; }
-.icon-visa i { color: #0055A4; }
-.icon-cr i { color: #27ae60; }
-.icon-infosite i { color: #3498db; }
-
-/* En-tête de page unifié */
-.page-header {
-  display: flex;
-  align-items: center;
-  background-color: #003366;
-  color: white;
-  padding: 10px;
-  border-radius: 0;
-  margin-bottom: 20px;
-}
-
-.back-button {
-  background: white;
-  color: #003366;
-  border: none;
-  border-radius: 6px;
-  padding: 6px 10px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-right: 10px;
-}
-
-.back-button:hover {
-  background: #f0f0f0;
-}
-
-.page-title {
-  flex: 1;
-  text-align: center;
-  font-size: 1.2em;
-  font-weight: bold;
-}
-
-#ficheIdentiteApp h2,
-#assistantVisaApp h2 {
-  background-color: #003366;
-  color: white;
-  padding: 12px 15px;
-  margin: 20px -15px 15px -15px;
-  border-radius: 0;
-  text-align: center;
-}
-
-.page-content {
-  padding: 15px;
-  background: #f0f2f5;
-  border-radius: 8px;
-}
-
-/* Formulaires */
 label {
-  display: block;
-  margin: 6px 0 3px 0;
-  font-weight: 500;
+  display:block;
+  font-size:14px;
+  margin:8px 0 4px;
+}
+input, select, textarea {
+  width:100%;
+  padding:10px;
+  border:1px solid #c9c9c9;
+  border-radius:8px;
+  font-size:14px;
 }
 
-input[type=text], input[type=date], input[type=time], input[type=number], select {
-  width: 100%;
-  padding: 8px 10px;
-  box-sizing: border-box;
-  border-radius: 6px;
-  border: 1px solid #ddd;
-  font-size: 1em;
-  margin-bottom: 8px;
-}
+.row {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
 
-textarea {
-  width: 100%;
-  min-height: 80px;
-  font-family: monospace;
-  font-size: 1em;
-  padding: 8px;
-  box-sizing: border-box;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  resize: vertical;
-}
-
-/* Section informations */
-.info-section {
-  border: 2px solid #28a745;
-  border-radius: 10px;
-  padding: 15px;
-  margin-bottom: 20px;
-  background: #f8fff9;
-}
-
-.info-row {
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.info-input {
-  width: 150px;
-  font-size: 1em;
-  padding: 4px 6px;
-}
-
-#selectSite {
-  font-size: 1em;
-  padding: 4px 6px;
-  margin-bottom: 15px;
-}
-
-/* Cartes de véhicules plus grandes */
-.vehicle-card {
-  border: 2px solid #3498db;
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 20px;
-  background: #f8f9fa;
-  min-height: 120px;
-}
-
-.vehicle-card h3 {
-  font-size: 1.3em;
-  margin-top: 0;
-  margin-bottom: 15px;
-  color: #2c3e50;
-}
-
-.flex-row {
-  display: flex;
-  flex-direction: column;   /* empile les lignes */
-  align-items: center;      /* centre les compteurs */
-  gap: 12px;
-  margin-bottom: 15px;
-}
-
-.flex-row > div {
-  display: flex;
-  justify-content: center;  /* centre horizontalement le contenu */
-  align-items: center;
-  gap: 8px;
-}
-
-/* Sauf pour les labels "Ajouter manuellement" -> alignés à gauche */
-.flex-row > div label {
-  justify-content: flex-start;
-  text-align: left;
-  width: 100%;  /* prend toute la largeur de la carte */
-}
-
-/* Compteurs plus visibles */
-span[id$="Count"] {
-  font-size: 1.2em;
-  font-weight: bold;
-  margin: 0 10px;
-}
-
-.manual-input {
-  width: 80px;
-  font-size: 1em;
-  padding: 4px 6px;
-}
-
-.small-note {
-  font-size: 0.85em;
-  color: #666;
-  margin-top: 5px;
-  margin-bottom: 15px;
-}
-
-/* QR Code */
-#qrcode {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-}
-
-#qrcode img {
-  display: block;
-}
-
-/* Fiche Identité */
-#ficheIdentitePage h2 {
-  background-color: #003366 !important;
-  color: white !important;
-  padding: 12px 15px;
-  margin: 20px -15px 15px -15px;
-  border-radius: 0;
-  text-align: center;
-}
-
-/* Assistant Visa */
-.autocomplete-container {
-  position: relative;
-  width: 100%;
-}
-
-#paysInput {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-}
-
-#paysDropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: white;
-  border: 1px solid #ccc;
-  border-top: none;
-  border-radius: 0 0 4px 4px;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 1000;
-  display: none;
-}
-
-.pays-option {
-  padding: 10px;
-  cursor: pointer;
-  border-bottom: 1px solid #eee;
-}
-
-.pays-option:hover, .pays-option.selected {
-  background-color: #0055A4;
-  color: white;
-}
-
-.pays-option:last-child {
-  border-bottom: none;
-}
-
-#resultat {
-  margin-top: 15px;
-  font-weight: bold;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .icon-button {
-    width: 100px;
-    height: 100px;
+  .row3 {
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:10px;
   }
   
-  .icon-button i {
-    font-size: 32px;
-  }
-
-  .icon-button span {
-    font-size: 12px;
-  }
-
-  .vehicle-card {
-    padding: 15px;
-  }
-
-  .plusminus {
-    width: 45px;
-    height: 45px;
-    font-size: 1.4em;
-  }
+.back-btn {
+  display:inline-block;
+  background:var(--brand);
+  color:white;
+  border:none;
+  border-radius:8px;
+  padding:10px 18px;
+  margin-top:15px;
+  font-size:1em;
+  text-decoration:none;
 }
-  .selected-site {
-  margin: 15px auto;
-  padding: 10px 15px;
-  background: #003366;
-  color: white;
-  border-radius: 8px;
-  display: inline-block;
-  font-weight: bold;
-}
+.back-btn:hover { background:#004c9c; }
 
-.site-list {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-top: 20px;
-}
+/* ZONE PV
+#sheet {
+  width:210mm;
+  min-height:297mm;
+  background:#fff;
+  color:#000;
+  font-family:var(--serif);
+  padding:10mm;
+  display:none;
+  box-shadow:0 2px 8px rgba(0,0,0,0.2);
+}*/
 
-.site-btn {
-  padding: 15px;
-  background: #fff;
-  border: 2px solid #003366;
-  border-radius: 10px;
-  font-size: 1.2em;
-  font-weight: bold;
-  color: #003366;
-  text-align: center;
-  transition: all 0.2s ease;
+/* ✅ Mise en page identique à l’écran et au PDF */
+#sheet {
+  width: 210mm;
+  min-height: 297mm;
+  display: none;
+  grid-template-columns: 58mm 1fr; /* colonne gauche et droite */
+  gap: 8mm;
+  background: white;
+  color: black;
+  font-family: "Times New Roman", serif;
+  padding: 10mm;
+  margin: 30px auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  box-sizing: border-box;
 }
 
-.site-btn:hover,
-.site-btn:active {
-  background: #003366;
-  color: #fff;
+#sheet .col-g {
+  border-right: 1px solid #aaa;
+  padding-right: 5mm;
 }
- /* Empêche le zoom automatique sur iOS */
-  @supports (-webkit-touch-callout: none) {
-    input[type=text], input[type=date], input[type=time], input[type=number], select {
-      font-size: 16px;
+
+#sheet .col-d {
+  padding-left: 4mm;
+  text-align: justify;
+  line-height: 1.42;
+}
+
+.logo {
+  width: 60mm;
+  margin: 0 0 8mm 0;
+}
+
+.signzone {
+  margin-top: 16mm;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.signcell {
+  min-height: 28mm;
+  border-top: 1px solid #aaa;
+  padding-top: 4mm;
+}
+
+/* Impression */
+@media print {
+  body>*:not(#sheet){display:none !important}
+  #sheet{display:grid !important;position:static;margin:0}
+}
+
+/* ======== RESPONSIVE DESIGN ======== */
+
+  @media (max-width: 900px) {
+    .wrap {
+      padding:12px;
+      margin:10px;
+    }
+    .grid, .row, .row3 {
+      grid-template-columns:1fr; /* Les champs s’empilent */
+    }
+    fieldset {
+      padding:10px;
     }
   }
-/* === Bouton rouge d'urgence === */
-.icon-button.urgent {
-  background: #c0392b;
-  color: white;
+
+  @media (max-width: 600px) {
+    body {
+      font-size:15px;
+    }
+    .toolbar {
+      flex-direction:column;
+      gap:10px;
+    }
+    .toolbar button {
+      width:100%;
+      font-size:16px;
+    }
+    input, select, textarea {
+      font-size:16px; /* Évite le zoom sur iPhone */
+    }
+    .wrap {
+      padding:10px;
+    }
+  }
+
+  /* ✅ Correction ciblée : empêche les champs d'écriture de dépasser des cartes */
+fieldset input,
+fieldset select,
+fieldset textarea {
+  box-sizing: border-box;
+  max-width: 100%;
+  width: 100%;
 }
-.icon-button.urgent:hover {
-  background: #e74c3c;
-  transform: scale(1.05);
+/* ✅ Corrige l'espacement du numéro de PV (prévisualisation) */
+.num-pv {
+  display: block;
+  margin-top: 8mm;      /* espace vertical sous "GENDARMERIE NATIONALE" */
+  font-style: italic;
+}
+#sign_col_g {
+  letter-spacing: 1px;
+  word-spacing: 20px;
 }
 
-/* === Fenêtre de confirmation === */
-.popup-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  display: none;
+/* 🧭 Menu déroulant mobile-friendly */
+/*#optionsMenu {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* 2 colonnes sur PC, 1 sur mobile */
+  gap: 12px;
+  width: 100%;
+}*/
+#optionsMenu {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* ⬅️ FORCÉ : 2 colonnes fixes */
+  gap: 12px;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+
+/* 🎨 Style des boutons */
+#optionsMenu button {
+  min-height: 64px;
+  padding: 14px 20px;
+  background: linear-gradient(180deg, #0d6efd, #003366);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-size: 1.50em;
+  font-weight: 600;
+  display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
-}
-.popup-box {
-  background: #0b1936;
-  color: white;
-  padding: 25px;
-  border-radius: 12px;
-  text-align: center;
-  max-width: 320px;
-  width: 90%;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-  animation: popupFade 0.2s ease-in-out;
-}
-.popup-box h3 {
-  margin-top: 0;
-  color: #ffcc00;
-  font-size: 1.2em;
-  text-transform: uppercase;
-}
-.popup-box p {
-  margin: 15px 0 20px;
-  font-size: 1em;
-  line-height: 1.4;
-}
-.popup-buttons {
-  display: flex;
   gap: 10px;
-  justify-content: center;
-}
-.popup-btn {
-  flex: 1;
-  border: none;
-  border-radius: 8px;
-  padding: 10px;
-  font-weight: bold;
-  font-size: 1em;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.25);
+  transition: all 0.15s ease;
   cursor: pointer;
+  text-align: center;
+}
+
+#optionsMenu button i {
+  font-size: 1.4em;
+}
+
+#optionsMenu button:hover {
+  background: linear-gradient(180deg, #0055cc, #002b66);
+}
+
+#optionsMenu button:active {
+  transform: scale(0.96);
+}
+
+/* 🔙 Bouton retour */
+.back-btn {
+  background: white;
+  color: #003366;
+  border: 2px solid #003366;
+  border-radius: 10px;
+  padding: 10px 18px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.2s;
+}
+.back-btn:hover {
+  background: #003366;
   color: white;
 }
-.popup-btn.call {
-  background: #c0392b;
+
+#scrollTopBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+  background: linear-gradient(180deg, #0d6efd, #003366);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  font-size: 1.4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.25);
+  cursor: pointer;
+  transition: 0.2s ease;
 }
-.popup-btn.cancel {
-  background: #4b5563;
+
+#scrollTopBtn:hover {
+  transform: scale(1.08);
+  background: linear-gradient(180deg, #0055cc, #002b66);
 }
-.popup-btn.call:hover {
-  background: #e74c3c;
+
+.btn-fermer {
+  position: relative;       /* ancré dans le flux du PV */
+  float: left;              /* 🔹 colle le bouton à gauche du PV */
+  margin-top: 10px;         /* 🔹 espace avec le haut */
+  margin-left: 10px;        /* 🔹 léger retrait du bord gauche */
+  margin-bottom: 15px;      /* 🔹 espace sous le bouton avant le PV */
+  background: #b00000;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10;              /* passe au-dessus du contenu du PV */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
-.popup-btn.cancel:hover {
-  background: #6b7280;
+.btn-fermer:hover {
+  background: #d00000;
 }
-@keyframes popupFade {
-  from { transform: scale(0.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+
+
+/* petit effet fondu à l’apparition/disparition */
+.btn-fermer[style*="display: none"] {
+  opacity: 0;
 }
+
+#toast {
+  position: fixed;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.85);
+  color: #fff;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-radius: 8px;
+  z-index: 9999;
+  display: none;
+}
+
 
 </style>
 </head>
+
 <body>
 
-<div id="homePage" class="page active">
-  <h1 class="home-title">GENDARMERIE<br> Moyens / Personnes</h1>
-  <div class="home-menu">
-   <button class="icon-button icon-infosite" onclick="showPage('infositePage')">
-      <i class="fas fa-map-marker-alt gps-pin"></i>
-      <span>SITE</span>
-    </button>
-     <button class="icon-button icon-esr" onclick="showPage('esrPage')">
-      <i class="fas fa-user-shield"></i>
-      <span>ESR</span>
-    </button>
-    <button class="icon-button icon-compteurs" onclick="showPage('vehiculesPage')">
-      <i class="fas fa-chart-bar"></i>
-      <span>Compteurs</span>
-    </button>
-     <button class="icon-button icon-fiche" onclick="showPage('ficheIdentitePage')">
-      <i class="fas fa-id-card"></i>
-      <span>Fiche identité</span>
-    </button>
-    <button class="icon-button icon-visa" onclick="showPage('assistantVisaPage')">
-      <i class="fas fa-passport"></i>
-      <span>Assistant Visas</span>
-    </button>
-	<button class="icon-button icon-cr" onclick="showPage('crPage')">
-      <i class="fas fa-file-alt"></i>
-      <span>Compte Rendu</span>
-    </button>
-	     <!-- 🟦 BOUTON PROCÈS-VERBAL -->
-<button class="icon-button icon-pv" onclick="window.location.href='pv/index.html'">
-  <i class="fas fa-gavel"></i>
-  <span>Procès-verbal</span>
-</button>
-	  <!-- 🔴 BOUTON APPEL CORG -->
-<button class="icon-button urgent" onclick="confirmCallCORG()">
-  <i class="fas fa-phone"></i>
-  <span>APPEL CORG</span>
-</button>
-</div>
-<!-- 🟦 POPUP CONFIRMATION APPEL -->
-<div id="popupCORG" class="popup-overlay">
-  <div class="popup-box">
-    <h3>⚠️ CONFIRMATION</h3>
-    <p>Souhaitez-vous appeler le <strong>CORG ALPES-MARITIMES</strong> ?<br>
-    Numéro : <strong>04 93 18 23 61</strong></p>
-    <div class="popup-buttons">
-      <button id="popupCallBtn" class="popup-btn call">📞 Appeler</button>
-      <button id="popupCancelBtn" class="popup-btn cancel">Annuler</button>
-    </div>
+
+<!-- MENU PRINCIPAL -->
+<div id="homePage">
+  <div class="menu-btn" onclick="showSection('redacteur')">
+    <i class="fa-solid fa-user-pen"></i><span>Rédacteur</span>
   </div>
-</div>
-</div>
-
-<!-- PAGE SITE de Mission -->
-<div id="infositePage" class="page">
-  <div class="page-header">
-    <button class="back-button" onclick="showPage('homePage')">
-      <i class="fas fa-arrow-left"></i> Retour
-    </button>
-    <div class="page-title">Site de mission</div>
+  <div class="menu-btn" onclick="showSection('assistants')">
+    <i class="fa-solid fa-people-group"></i><span>Assistant(s)</span>
   </div>
-
-  <section class="infosite">
-  <div class="page-content" style="text-align:center;">
-       <h3>Choisir un site</h3>
-	   <div id="selectedSiteDisplay" class="selected-site"></div>
-    <div class="site-list">
-      <button class="site-btn" onclick="selectSite('Breil')">Breil</button>
-      <button class="site-btn" onclick="selectSite('La Turbie')">La Turbie</button>
-      <button class="site-btn" onclick="selectSite('DSI Tende')">DSI Tende</button>
-    </div>
-  </div> 
-	</section>
-	</div>
-	
-<!-- PAGE ESR -->
-<div id="esrPage" class="page">
-  <div class="page-header">
-    <button class="back-button" onclick="showPage('homePage')">
-      <i class="fas fa-arrow-left"></i> Retour </button>
-    <div class="page-title">Infos ESR</div>
+  <div class="menu-btn" onclick="showSection('mission')">
+    <i class="fa-solid fa-shield-halved"></i><span>Mission</span>
   </div>
-
-  <section class="info-section">
-    <h3 style="margin-top:0; color:#2c3e50;">Informations personnelles</h3>
-    <div class="info-row">
-      <label>Grade : 
-        <input type="text" id="grade" class="info-input" placeholder="Entrez votre grade">
-      </label>
-      <label>Nom Prénom : 
-        <input type="text" id="nomPrenom" class="info-input" placeholder="Entrez nom prénom">
-      </label>
-    </div>
-    <div class="info-row">
-      <label>Nigend : 
-        <input type="text" id="nigend" class="info-input" placeholder="Entrez Nigend">
-      </label>
-      <label>CRT : 
-        <input type="text" id="crt" class="info-input" placeholder="Entrez CRT (ex: 06/1 Nice)">
-      </label>
-    </div>
-    <div style="text-align:center; margin-top:15px;">
-      <button id="validerInfos" class="green">Valider les informations</button>
-      <button id="resetInfosBtn" class="red">Effacer les informations</button>
-    </div>
-  </section>
-</div>
-
-<!-- Page Véhicules/Compteurs -->
-<div id="vehiculesPage" class="page">
-  <div class="page-header">
-    <button class="back-button" onclick="showPage('homePage')">
-      <i class="fas fa-arrow-left"></i> Retour
-    </button>
-    <div class="page-title">Moyens / Personnes contrôlées</div>
+  <div class="menu-btn" onclick="showSection('esi')">
+    <i class="fa-solid fa-id-card"></i><span>ESI contrôlé</span>
   </div>
-  <div class="page-content">
-    <div class="vehicle-card" id="trainCard">
-      <h3>Train</h3>
-      <div class="flex-row" style="align-items:center;">
-        <div>
-          <button class="plusminus minus" data-type="train" data-field="vehicules" data-action="minus">-</button>
-          <span id="trainVehiclesCount">0</span> véhicules
-          <button class="plusminus plus" data-type="train" data-field="vehicules" data-action="plus">+</button>
-        </div>
-        <div style="margin-left:20px;">
-          <button class="plusminus minus" data-type="train" data-field="cv" data-action="minus">-</button>
-          <span id="trainCvCount">0</span> CV
-          <button class="plusminus plus" data-type="train" data-field="cv" data-action="plus">+</button>
-        </div>
-        <div>
-          <label style="margin-left:15px;">Ajouter CV manuellement:
-            <input type="number" id="trainCvManual" class="manual-input" min="0" placeholder="0" inputmode="numeric" pattern="[0-9]*">
-            <button id="trainCvAddManualBtn" class="add">Ajouter</button>
-          </label>
-        </div>
-        <div style="margin-left:20px;">
-          <button class="plusminus minus" data-type="train" data-field="cf" data-action="minus">-</button>
-          <span id="trainCfCount">0</span> CF
-          <button class="plusminus plus" data-type="train" data-field="cf" data-action="plus">+</button>
-        </div>
-        <div>
-          <label style="margin-left:15px;">Ajouter CF manuellement:
-            <input type="number" id="trainCfManual" class="manual-input" min="0" placeholder="0" inputmode="numeric" pattern="[0-9]*">
-            <button id="trainCfAddManualBtn" class="add">Ajouter</button>
-          </label>
-        </div>
-      </div>
-    </div>
-
-    <div class="vehicle-card" id="busCard">
-      <h3>Bus</h3>
-      <div class="flex-row" style="align-items:center;">
-        <div>
-          <button class="plusminus minus" data-type="bus" data-field="vehicules" data-action="minus">-</button>
-          <span id="busVehiclesCount">0</span> véhicules
-          <button class="plusminus plus" data-type="bus" data-field="vehicules" data-action="plus">+</button>
-        </div>
-        <div style="margin-left:20px;">
-          <button class="plusminus minus" data-type="bus" data-field="cv" data-action="minus">-</button>
-          <span id="busCvCount">0</span> CV
-          <button class="plusminus plus" data-type="bus" data-field="cv" data-action="plus">+</button>
-        </div>
-        <div>
-          <label style="margin-left:15px;">Ajouter CV manuellement:
-            <input type="number" id="busCvManual" class="manual-input" min="0" placeholder="0" inputmode="numeric" pattern="[0-9]*">
-            <button id="busCvAddManualBtn" class="add">Ajouter</button>
-          </label>
-        </div>
-        <div style="margin-left:20px;">
-          <button class="plusminus minus" data-type="bus" data-field="cf" data-action="minus">-</button>
-          <span id="busCfCount">0</span> CF
-          <button class="plusminus plus" data-type="bus" data-field="cf" data-action="plus">+</button>
-        </div>
-        <div>
-          <label style="margin-left:15px;">Ajouter CF manuellement:
-            <input type="number" id="busCfManual" class="manual-input" min="0" placeholder="0" inputmode="numeric" pattern="[0-9]*">
-            <button id="busCfAddManualBtn" class="add">Ajouter</button>
-          </label>
-        </div>
-      </div>
-    </div>
-
-    <div class="vehicle-card" id="vlCard">
-      <h3>VL</h3>
-      <div class="flex-row" style="align-items:center;">
-        <div>
-          <button class="plusminus minus" data-type="vl" data-field="vehicules" data-action="minus">-</button>
-          <span id="vlVehiclesCount">0</span> véhicules
-          <button class="plusminus plus" data-type="vl" data-field="vehicules" data-action="plus">+</button>
-        </div>
-        <div style="margin-left:20px;">
-          <button class="plusminus minus" data-type="vl" data-field="cv" data-action="minus">-</button>
-          <span id="vlCvCount">0</span> CV
-          <button class="plusminus plus" data-type="vl" data-field="cv" data-action="plus">+</button>
-        </div>
-        <div>
-          <label style="margin-left:15px;">Ajouter CV manuellement:
-            <input type="number" id="vlCvManual" class="manual-input" min="0" placeholder="0" inputmode="numeric" pattern="[0-9]*">
-            <button id="vlCvAddManualBtn" class="add">Ajouter</button>
-          </label>
-        </div>
-        <div style="margin-left:20px;">
-          <button class="plusminus minus" data-type="vl" data-field="cf" data-action="minus">-</button>
-          <span id="vlCfCount">0</span> CF
-          <button class="plusminus plus" data-type="vl" data-field="cf" data-action="plus">+</button>
-        </div>
-        <div>
-          <label style="margin-left:15px;">Ajouter CF manuellement:
-            <input type="number" id="vlCfManual" class="manual-input" min="0" placeholder="0" inputmode="numeric" pattern="[0-9]*">
-            <button id="vlCfAddManualBtn" class="add">Ajouter</button>
-          </label>
-        </div>
-      </div>
-    </div>
-
-    <div class="vehicle-card" id="plCard">
-      <h3>PL</h3>
-      <div class="flex-row" style="align-items:center;">
-        <div>
-          <button class="plusminus minus" data-type="pl" data-field="vehicules" data-action="minus">-</button>
-          <span id="plVehiclesCount">0</span> véhicules
-          <button class="plusminus plus" data-type="pl" data-field="vehicules" data-action="plus">+</button>
-        </div>
-        <div style="margin-left:20px;">
-          <button class="plusminus minus" data-type="pl" data-field="cv" data-action="minus">-</button>
-          <span id="plCvCount">0</span> CV
-          <button class="plusminus plus" data-type="pl" data-field="cv" data-action="plus">+</button>
-        </div>
-        <div>
-          <label style="margin-left:15px;">Ajouter CV manuellement:
-            <input type="number" id="plCvManual" class="manual-input" min="0" placeholder="0" inputmode="numeric" pattern="[0-9]*">
-            <button id="plCvAddManualBtn" class="add">Ajouter</button>
-          </label>
-        </div>
-        <div style="margin-left:20px;">
-          <button class="plusminus minus" data-type="pl" data-field="cf" data-action="minus">-</button>
-          <span id="plCfCount">0</span> CF
-          <button class="plusminus plus" data-type="pl" data-field="cf" data-action="plus">+</button>
-        </div>
-        <div>
-          <label style="margin-left:15px;">Ajouter CF manuellement:
-            <input type="number" id="plCfManual" class="manual-input" min="0" placeholder="0" inputmode="numeric" pattern="[0-9]*">
-            <button id="plCfAddManualBtn" class="add">Ajouter</button>
-          </label>
-        </div>
-      </div>
-    </div>
+  <div class="menu-btn" onclick="showSection('options')">
+    <i class="fa-solid fa-gear"></i><span>Options</span>
   </div>
 </div>
 
-<!-- Page Fiche identité (intégration ESI+Visa - partie Fiche) -->
-<div id="ficheIdentitePage" class="page">
-  <div class="page-header">
-    <button class="back-button" onclick="showPage('homePage')">
-      <i class="fas fa-arrow-left"></i> Retour
-    </button>
-    <div class="page-title">Fiche identité</div>
-  </div>
-  <div class="page-content">
-    <!-- Ici on intégrera le formulaire complet ESI (prochaine étape) -->
-    <div id="ficheIdentiteApp">
-  <form id="ficheForm">
-    <label>Catégorie :
-      <select id="categorie">
-        <option value="ESI">ESI</option>
-        <option value="PASSEUR">PASSEUR</option>
-      </select>
-    </label>
+<!-- SECTION RÉDACTEUR -->
+<section id="redacteur">
+  <fieldset>
+   <legend>ESR (rédacteur)</legend>
+        <label>Grade</label>
+        <input id="esr_grade" placeholder="ex: Gendarme" />
+        <label>Nom</label>
+        <input id="esr_nom"
+       placeholder="NOM"
+       style="text-transform:uppercase"
+       oninput="this.value=this.value.toUpperCase()"
+       autocorrect="off"
+       autocapitalize="characters"
+       spellcheck="false">
+        <label>Prénom</label>
+        <input id="esr_prenom" placeholder="Prénom" />
+        <label>Sexe ESR (accord de « assisté(e) »)</label>
+        <select id="esr_sexe"><option value="m">Masculin</option><option value="f">Féminin</option></select>
+     <label>Qualité</label>
+<select id="esr_qualite">
+  <option value="">— Sélectionner —</option>
+  <option value="APJA">APJA</option>
+  <option value="APJ">APJ</option>
+  <option value="OPJ">OPJ</option>
+  <option value="AFP">AFP</option>
+</select>
 
-    <h2>Identité</h2>
-    <label>Nom<input type="text" id="nom" autocomplete="off" required></label>
-    <label>Prénom<input type="text" id="prenom" autocomplete="off" required></label>
-    <label>Sexe
-      <select id="sexe">
-        <option value="">--Sélectionner--</option>
-        <option value="Masculin">Masculin</option>
-        <option value="Féminin">Féminin</option>
-        <option value="Autre">Autre</option>
-      </select>
-    </label>
-    <label>Nationalité<input type="text" id="nationalite" autocomplete="off"></label>
 
-    <label>Date de naissance :</label>
-    <div class="date-naissance">
-      <input type="number" id="jour" placeholder="JJ" min="1" max="31" required>
-      <input type="number" id="mois" placeholder="MM" min="1" max="12" required>
-      <input type="number" id="annee" placeholder="AAAA" min="1900" max="2100" required>
-    </div>
-    <label>Âge<input type="number" id="age" readonly></label>
 
-    <h2>Intervention</h2>
-    <label>Heure et Date d'intervention :</label>
-    <div class="heure-date">
-      <input type="time" id="heure" required>
-      <input type="date" id="dateIntervention" required>
-    </div>
-    <label>Lieu d'interpellation<input type="text" id="lieuInterpellation" autocomplete="off"></label>
-    <label>Suites données<input type="text" id="suitesDonnees" autocomplete="off"></label>
-
-    <h2>Voyage</h2>
-    <label>Ville de départ<input type="text" id="villeDepart" autocomplete="off"></label>
-    <label>Pays de départ<input type="text" id="paysDepart" autocomplete="off"></label>
-    <label>Ville de destination<input type="text" id="villeDestination" autocomplete="off"></label>
-    <label>Pays de destination<input type="text" id="paysDestination" autocomplete="off"></label>
-
-    <h2>Véhicule</h2>
-    <label>Type de véhicule<input type="text" id="vehicule" autocomplete="off"></label>
-    <label>Immatriculation<input type="text" id="immatriculation" autocomplete="off"></label>
-
-    <h2>Pièces d'identité présentées</h2>
-    <div id="piecesIdentite">
-      <label><input type="checkbox" name="piece" value="Passeport valide"> Passeport valide</label>
-      <label><input type="checkbox" name="piece" value="Passeport périmé"> Passeport périmé</label>
-      <label><input type="checkbox" name="piece" value="Fiche de demande d'asile valide"> Fiche de demande d'asile valide</label>
-      <label><input type="checkbox" name="piece" value="Fiche de demande d'asile périmée"> Fiche de demande d'asile périmée</label>
-      <label><input type="checkbox" name="piece" value="Carte d'identité valide"> Carte d'identité valide</label>
-      <label><input type="checkbox" name="piece" value="Carte d'identité périmée"> Carte d'identité périmée</label>
-      <label><input type="checkbox" name="piece" value="Titre de séjour valide"> Titre de séjour valide</label>
-      <label><input type="checkbox" name="piece" value="Titre de séjour périmé"> Titre de séjour périmé</label>
-      <label><input type="checkbox" id="autreCheck" name="piece" value=""> Autre :</label>
-    </div>
-    <input type="text" id="autreTexte" placeholder="Précisez..." style="width:100%;margin-top:5px;padding:8px;" disabled>
-
-    <button type="submit" class="blue">Enregistrer la fiche</button>
-
-  </form>
-
-  <h2>Historique des fiches</h2>
-  <div id="historique"></div>
-  <button id="effacerFiches" class="red">Effacer toutes les fiches</button>
-</div>
-
-  </div>
-</div>
-
-<!-- Page Assistant Visas (intégration ESI+Visa - partie Assistant) -->
-<div id="assistantVisaPage" class="page">
-  <div class="page-header">
-    <button class="back-button" onclick="showPage('homePage')">
-      <i class="fas fa-arrow-left"></i> Retour
-    </button>
-    <div class="page-title">Assistant Visas</div>
-  </div>
-  <div class="page-content">
-    <!-- Ici on intégrera l'Assistant Visa France (prochaine étape) -->
-    <div id="assistantVisaApp">
-  <h2>Mini Assistant Visa France</h2>
-  <label for="paysInput">Sélectionnez votre pays :</label><br>
-  <div class="autocomplete-container">
-    <input type="text" id="paysInput" placeholder="Tapez le nom du pays..." autocomplete="off">
-    <div id="paysDropdown"></div>
-  </div><br>
-
-  <label for="duree">Type de séjour :</label><br>
-  <select id="duree">
-    <option value="court">Courte durée (&lt;90 jours)</option>
-    <option value="long">Longue durée (&gt;90 jours)</option>
-  </select><br>
-
-  <p id="resultat"></p>
-  
-  
-  <p>LIENS UTILES:</p> <a href="https://www.visa-schengen.info/voyager-en-europe/pays-exemptes/" target="blank">Pays exemptés de visas</a><br><br>
-                <a href="https://www.visa-schengen.info/voyager-en-europe/pays-concernes/" target="blank">Pays concernés</a><br><br>
-				<a href="https://www.immigration.interieur.gouv.fr/fr/Immigration/Les-visas" target="blank">Les visas/immigration</a>   
-							
-</div>
-
-  </div>
-</div>
-
-<div id="crPage" class="page">
-  <div class="page-header">
-    <button class="back-button" onclick="showPage('homePage')">
-      <i class="fas fa-arrow-left"></i> Retour
-    </button>
-    <div class="page-title">Compte rendu</div>
-  </div>
-  
-  <section style="text-align:center; margin-bottom:20px;">
-   
-  <button id="generateBtn" class="blue">Générer compte rendu</button>
-  <button id="transmettreBtn" class="green">TRANSMETTRE</button>
+        <label>Affectation</label>
+        <input id="esr_affect" placeholder="ex: CRT 06/1 Nice" />
+        <div class="row">
+          <div>
+            <label>Numéro de PV</label>
+            <input id="pv_num" placeholder="(ex: 2025 / )" />
+          </div>
+          <div>
+  </fieldset>
+  <a href="#" class="back-btn" onclick="backHome()">⬅ Retour</a>
 </section>
 
-<div id="qrcode"></div>
-
-<section>
-  <h2>Compte rendu généré :</h2>
-  <textarea id="compteRendu" readonly rows="12" style="font-family:monospace; white-space:pre-wrap;"></textarea>
+<!-- SECTION ASSISTANTS -->
+<section id="assistants">
+  <fieldset>
+   <legend>Assistants (multi)</legend>
+        <div id="assist_list"></div>
+        <button type="button" class="add-btn" onclick="addAssistant()">
+  <i class="fa-solid fa-user-plus"></i> Ajouter un assistant
+</button>
+    </fieldset>
+  <a href="#" class="back-btn" onclick="backHome()">⬅ Retour</a>
 </section>
-<section style="text-align:center; margin-top:30px;">
-    <button id="resetBtn" class="red">Effacer les données sauvegardées</button>
-	</section>
+
+<!-- SECTION MISSION -->
+<section id="mission">
+  <fieldset>
+    <legend>Mission</legend>
+    <label>Lieu de mission</label>
+    <input id="mission_lieu" placeholder="ex: La Turbie" />
+    <div class="row">
+      <div>
+        <label>Heure début</label>
+        <input id="mission_hdeb" type="time" />
+      </div>
+      <div>
+        <label>Heure fin</label>
+        <input id="mission_hfin" type="time" />
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label>Date (lettres)</label>
+        <input id="date_lettres" placeholder="17 Juillet" />
+      </div>
+      <div>
+        <label>Heure avant constatation</label>
+        <input id="heure_lettres" type="time" />
+      </div>
+    </div>
+  </fieldset>
+  <a href="#" class="back-btn" onclick="backHome()">⬅ Retour</a>
+</section>
+
+<!-- SECTION ESI CONTRÔLÉ -->
+<section id="esi">
+  <fieldset>
+    <legend>ESI contrôlé</legend>
+        <div class="row">
+          <div>
+            <label>Heure de constatation (lettres)</label>
+            <input id="esi_hconstat" type="time" placeholder="16 heures et 30 minutes" />
+          </div>
+          <div>
+           <label for="veh_type">Véhicule/Pieton</label>
+
+<select id="veh_type">
+  <option value="" selected disabled>— Sélectionner —</option>
+  <option value="bus">Bus</option>
+  <option value="train">Train</option>
+  <option value="VL">Véhicule léger</option>
+  <option value="PL">Poids lourd</option>
+  <option value="personne">Personne</option>
+</select>
+          </div>
+        </div>
+		<label>Marque du véhicule/Compagnie du train/bus</label>
+<input id="veh_marque"placeholder="ex:Renault/Tranitalia/Flixbus" />
+
+        <label>Immatriculation / n° de train</label>
+        <input id="veh_immat" 
+       placeholder="AA-123-BB / TGV 6123" 
+       style="text-transform:uppercase" 
+       oninput="this.value=this.value.toUpperCase()" 
+       autocorrect="off" 
+       autocapitalize="characters" 
+       spellcheck="false">
+
+		<label for="veh_pays">Pays d’immatriculation</label>
+<input id="veh_pays" placeholder="ex: en Italie"
+oninput="if(this.value) this.value = this.value.charAt(0).toLowerCase() + this.value.slice(1)">
+
+<label>Conducteur / Conductrice</label>
+<select id="conducteur_genre">
+  <option value="m">Conducteur</option>
+  <option value="f">Conductrice</option>
+</select>
+
+        <label>Lieu du contrôle</label>
+        <input id="lieu_controle" placeholder="ex: sur le bas côté" 
+autocapitalize="off"
+       autocorrect="off"
+       spellcheck="false">
+        <label>Pièce d’identité présentée</label>
+        <input id="piece_id" placeholder="ex: passeport sans visa/ titre de séjour périmé"
+autocapitalize="off"
+       autocorrect="off"
+       spellcheck="false">
+        <div class="row3">
+          <div>
+<small>⚠️SI PAS DE PIECE D'IDENTITÉ NE RIEN ECRIRE⚠️
+            <label>Nom</label>
+            <input id="esi_nom"
+       placeholder="NOM ESI"
+       style="text-transform:uppercase"
+       oninput="this.value=this.value.toUpperCase()"
+       autocorrect="off"
+       autocapitalize="characters"
+       spellcheck="false">
+          </div>
+          <div>
+            <label>Prénom</label>
+            <input id="esi_prenom" placeholder="prénom esi" />
+          </div>
+          <div>
+            <label>Sexe</label>
+            <select id="esi_sexe"><option value="m">Masculin</option><option value="f">Féminin</option></select>
+          </div>
+        </div>
+        <div class="row3">
+          <div>
+           <label>Date de naissance</label>
+<input id="esi_dnaiss" type="text" maxlength="10" placeholder="jj/mm/aaaa" oninput="formatDateNaissance(this)">
+
+          </div>
+          <div>
+            <label>Lieu de naissance</label>
+            <input id="esi_lnaiss" placeholder="ex:DAKAR (SENEGAL)"
+style="text-transform:uppercase" 
+       oninput="this.value=this.value.toUpperCase()" 
+       autocorrect="off" 
+       autocapitalize="characters" 
+       spellcheck="false">
+          </div>
+          <div>
+            <label>Nationalité</label>
+            <input id="esi_nat" placeholder="ex: sénégalaise" 
+autocapitalize="off"
+       autocorrect="off"
+       spellcheck="false">
+          </div>
+        </div>
+		<label>Langue parlée</label>
+<select id="esi_langue">
+  <option value="fr_ok">Parle français</option>
+  <option value="fr_approx">Français approximatif</option>
+  <option value="npf">Ne parle pas français</option>
+</select>
+
+        <div class="row3">
+          <div>
+            <label>FPR</label>
+            <select id="fpr"><option>Négatif</option><option>Positif</option></select>
+          </div>
+          <div>
+            <label>AGDREF</label>
+            <select id="agdref"><option>Négatif</option><option>Positif</option></select>
+          </div>
+          <div>
+            <label>Fichiers nationaux (ex:OQTF,RAS,AUTRE)</label>
+            <input id="fichiers_nat" placeholder="OQTF" />
+          </div>
+        </div>
+        <div class="row">
+         <div>
+  <label>Palpation (genre de l’agent qui palpe)</label>
+  <select id="palp_genre" onchange="majPalpation()">
+    <option value="">— Sélectionner —</option>
+    <option value="m">Masculin</option>
+    <option value="f">Féminin</option>
+    <option value="impossible">Impossible (pas de personnel du même sexe)</option>
+  </select>
 </div>
+
+<div>
+  <label>Objets trouvés sur l’individu</label>
+  <input type="text" id="objets_trouves" placeholder="ex : couteau pliant, briquet" oninput="majPalpation()">
+</div>
+<small>⚠️SI PAS D'OBJET NE RIEN ECRIRE⚠️
+          <div>
+            <label>Véhicule de transport</label>
+            <select id="transport_type"><option>GENDARMERIE</option><option>Translation Police</option></select>
+          </div>
+        </div>
+        <label>PAF de présentation (ville)</label>
+        <input id="paf_ville" placeholder="Menton / Nice / Aéroport" />
+		<label>Heure de présentation à la PAF</label>
+<input id="paf_heure" type="time" placeholder="ex: 17 heures et 10 minutes" />
+  </fieldset>
+  <a href="#" class="back-btn" onclick="backHome()">⬅ Retour</a>
+</section>
+
+<!-- SECTION OPTIONS -->
+<section id="options">
+  <div class="toolbar" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;flex-direction:column;align-items:center;">
+    <a href="#" class="back-btn" onclick="backHome()">⬅ Retour</a>
+
+    <!-- 🔽 Bouton principal -->
+    <button id="toggleOptions" style="background:#003366;color:white;border:none;border-radius:10px;padding:12px 20px;font-size:1.1em;cursor:pointer;">
+      ⚙️ MENU
+    </button>
+
+   <!-- 🔽 Menu déroulant masqué par défaut -->
+<div id="optionsMenu" style="display:none;flex-direction:column;gap:8px;margin-top:10px;">
+  <button onclick="generatePV()"><i class="fa-solid fa-file-lines"></i> Générer le PV</button>
+  <button class="secondary" onclick="openPrintPreview()"><i class="fa-solid fa-print"></i> Imprimer / PDF</button>
+  <button id="sendMailBtn"><i class="fa-solid fa-envelope"></i> Envoyer par mail</button>
+  <button onclick="sauvegarderPV()"><i class="fa-solid fa-floppy-disk"></i> Sauvegarder le PV</button>
+  <button onclick="ouvrirMesPV()"><i class="fa-solid fa-folder-open"></i> Mes PV sauvegardés</button>
+  <button onclick="nouveauPV()"><i class="fa-solid fa-plus"></i> Nouveau PV</button>
+</div>
+  </div>
+ <button id="closePVBtn" class="btn-fermer" onclick="fermerPV()" style="display:none;">❌ Fermer</button>
+
+
+   <h2>Procès-verbal généré:</h2>
+   <div id="sheet">
+    <div class="col-g">
+      <div class="title-left">MINISTERE DE L'INTERIEUR</div>
+      <div style="margin-top:2mm"></div>
+      <hr style="border:none;border-top:1px solid #000;margin:3mm 0 2mm 0">
+      <div class="title-left" style="white-space:pre-line">DIRECTION GENERALE
+DE LA POLICE NATIONALE
+
+DIRECTION GÉNÉRALE DE LA GENDARMERIE     NATIONALE</div>
+      <div class="num-pv">NUMÉRO DE P.V. : <span id="pv_num_o"></span></div>
+
+      <div style="margin-top:8mm">AFFAIRE :</div>
+     
+      <div style="margin-top:8mm"><span id="esi_civil_left_o">Monsieur</span> <span id="aff_nomcomplet_o">Nom Prénom</span></div>
+      <div style="margin-top:6mm">OBJET :</div>
+      <div>Rapport de saisine</div>
+      <div style="margin-top:6mm">SAISINE :</div>
+      <div>Interpellation d’étranger en situation irrégulière.</div>
+
+      <div id="sign_col_g" style="margin-top:18mm">L’assistant L’APJA</div>
+    </div>
+
+    <div class="col-d">
+      <div style="text-align:center;font-weight:bold;font-size:1.6em;letter-spacing:1px;">
+  RÉPUBLIQUE FRANÇAISE
+</div>
+<div style="text-align:center;font-weight:bold;margin-top:3mm;font-size:1.3em;">
+  RAPPORT DE SAISINE
+</div>
+<div style="height:10mm;"></div>
+
+      <p>L'an deux mil vingt-cinq,</p>
+      <p>Le <span id="date_lettres_o">17 Juillet</span>, à <span id="heure_lettres_o">16 heures et 25 minutes</span></p>
+      <p>NOUS :</p>
+
+      <p>Soussigné, <span id="esr_grade_o">Grade</span> <span id="esr_nom_o">Nom</span> <span id="esr_prenom_o">Prénom</span>, <span id="esr_qualite_o">Agent de Police Judiciaire Adjoint / APJA</span>, affecté à la <span id="esr_affect_o">CRT 06/1 Nice</span>,</p>
+
+      <p>Assisté<span id="assist_e_o"> </span> du <span id="assist_list_o">Grade Nom Prénom, Agent de Police Judiciaire Adjoint (APJA), affecté à la CRT</span></p>
+
+      <p>En fonction du Groupement de Gendarmerie Départementale des Alpes Maritimes, et détachés pour emplois au profit de Lutte contre l’Immigration Irrégulière et Clandestine, dans le cadre du dispositif Border Force 06</p>
+
+      <p>— Nous trouvant en mission de lutte contre l’immigration irrégulière et clandestine dans le département des Alpes-Maritimes (06) au point de passage autorisé de <span id="mission_lieu_o">la Turbie</span> ce jour de <span id="mission_hdeb_o">15</span> à <span id="mission_hfin_o">23</span> . —</p>
+
+      <p>— Mis temporairement et nominativement à la disposition de Monsieur le Préfet des Alpes-Maritimes, aux fins d'assurer une mission de lutte contre l'immigration irrégulière dans le département des Alpes-Maritimes, —</p>
+
+      <p>— Agissant conformément aux instructions reçues de Madame la Commissaire Divisionnaire Emmanuelle JOUBERT, Cheffe du Service Départemental de la Police aux Frontières des Alpes-Maritimes, —</p>
+
+      <p>— Vu l'article 21-1 du code de procédure pénale, —</p>
+      <p>— Vu les articles 20, D13 D14 et D15 du code de procédure pénale,</p>
+      <p>— Placés sous l'égide de la coordination départementale de la police aux frontières pour assurer la mission de contrôle des points de passage frontaliers, —</p>
+      <p>— Vu le titre II du règlement (UE) 2016/399 du Parlement européen et du Conseil du 9 mars 2016 concernant un code de l’Union relatif au régime de franchissement des frontières par les personnes (code frontière Schengen) JO L 077 du 23 mars 2016, p.1. —</p>
+      <p>— Vu les articles 5 à 8, 14 et 32 de ce règlement. —</p>
+      <p>— Vu la note des autorités françaises notifiant au premier Vice-président de la commission européenne son intention, à compter du 1er novembre 2025 et jusqu’au 30 avril 2026, de prolonger le rétablissement des contrôles aux frontières intérieures de la France avec la Belgique, le Luxembourg, l’Allemagne, l’Italie, l’Espagne, et la confédération Suisse, sur le fondement des articles 25 et 27 du règlement 2016/399 susvisé. —</p>
+      <p>— Revêtus de nos uniformes réglementaires et insignes afférents à notre fonction et munis du gilet réfléchissant GENDARMERIE, —</p>
+      <div id="texte-vehicule">
+      <p id="constatation_o">— À <span id="esi_hconstat_o">(Heure de constatation)</span>, nous constatons la présence d’un <span id="veh_type_o">(véhicule)</span> <span id="veh_marque_o">(Marque du vehicule)</span> immatriculé <span id="veh_pays_o">(pays d'immatriculation)</span> sous le numéro <span id="veh_immat_o">(immatriculation)</span> en circulation et arrivant dans notre direction  —</p>
+	  <p id="signe_o">— Faisons signe réglementairement <span id="conducteur_article_o">au</span> <span id="conducteur_label_o">(conducteur)</span> de stationner son véhicule correctement et en sécurité <span id="lieu_controle_o">sur le parking de l’aire de repos du péage de La Turbie</span>, afin de procéder au contrôle de l’identité des passagers du véhicule. —</p>
+      <p>— <span id="conducteur_article2_o">Le</span> <span id="conducteur_label2_o">conducteur</span> obtempère à notre demande, déclinons notre qualité et le motif de notre contrôle. —</p>
+	  <p id="phrase_controle_o">— Procédons au contrôle d'identité des personnes à bord du véhicule.</p>
+
+      <p id="piece_phrase_o">
+— À son bord, <span id="passager_article_o">un</span> <span id="passager_label_o">passager</span>
+<span id="piece_phrase_part_o">est en mesure de nous présenter un passeport</span>.
+<span id="individu_phrase_o">Cet individu</span> n’étant pas en mesure de nous présenter de document d’identité ou de voyage en cours de validité,
+<span id="passager_pronom_o">ce dernier</span> n’est donc pas en règle pour voyager, circuler ou séjourner sur le territoire national français. —
+</p>
+</div>
+<!-- === TEXTE PIÉTON (neutre complet avec identification ESI) === -->
+<div id="texte-pieton" style="display:none">
+
+  <p>— À <span id="heure_pieton_o">[heure]</span>, nous constatons la présence d’un individu circulant à pied <span id="lieu_pieton_o">[lieu]</span> et venant dans notre direction. —</p>
+
+  <p>— À son approche, nous déclinons notre qualité ainsi que le motif de notre contrôle. —</p>
+
+  <p>— Nous l’invitons à justifier de son identité, conformément aux dispositions de l’article 78-2 du Code de procédure pénale. —</p>
+
+  <p id="piece_pieton_o">— L’intéressé(e) obtempère et est en mesure de nous présenter un document de type : <span id="piece_type_o">[pièce d'identité présentée]</span>. —</p>
+
+</div>
+      <p>— Il s’agit de : —</p>
+
+      <p id="esi_lang_phrase_o">
+— <span id="esi_civil_o">Monsieur</span> <span id="esi_nom_o">Nom</span> <span id="esi_prenom_o">Prénom</span> né<span id="esi_nee_o"></span> le <span id="esi_dnaiss_o">(date de naissance)</span> à <span id="esi_lnaiss_o">Ville de naissance</span>, de nationalité <span id="esi_nat_o">(nationalité)</span>, de sexe <span id="esi_sexe_o">masculin</span>. <span id="langue_phrase_o">L’individu s’exprime en français approximatif.</span> <span id="identite_phrase_o">Son identité est relevée sur les pièces précitées.</span> —
+</p>
+
+
+      <p>— Effectuons des recherches concernant cette personne auprès des fichiers de Police mis à notre disposition, à l’aide de notre tablette de service : —</p>
+	  <p>— FPR : <span id="fpr_o">Négatif</span> —</p>
+      <p>— AGDREF : <span id="agdref_o">Négatif</span> —</p>
+      <p>—Aux fichiers Nationaux il appert qu’à ce jour et sous cette identité : <span id="fichiers_nat_o">il a fait l’objet d’une OQTF</span> —</p>
+      <p>— Rendons immédiatement compte des faits à l’Officier de Police Judiciaire Territorialement Compétent de permanence du poste de la Police Aux Frontières de <span id="paf_ville_o1">Saint Louis à Menton</span>, qui nous donne l’ordre de lui présenter <span id="esi_civil2_o">Monsieur</span> <span id="esi_nom2_o">THIAM</span> <span id="esi_prenom2_o">Mamadou Moustapha</span> dans les plus brefs délais. —</p>
+      <p>— Dès lors, nous nous trouvons en présence <span id="esi_etranger_phrase_o">d’un étranger</span> en situation irrégulière au voyage, à la circulation ou au séjour sur le territoire national français, —</p>
+      <p>— Agissant en vertu des articles L813-1 à L813-16 du Code de l’Entrée et du Séjour des Étrangers et du Droit d’Asile, —</p>
+      <p>— Informons la personne qu’elle se trouve en situation irrégulière sur le territoire national français. —</p>
+      <p>— Invitons <span id="esi_civil3_o">Monsieur</span> <span id="esi_nom3_o">THIAM</span> <span id="esi_prenom3_o">Mamadou Moustapha</span> à nous suivre. —</p>
+      <p>— <span id="palpation_text" style="white-space:pre-line; color:#000;"></span> —</p>
+      <p>— <span id="transport_phrase_o">
+Transportons l’individu sans contrainte ni entraves au poste de la Police Aux Frontières de Saint Louis à Menton, à bord de notre véhicule de service sérigraphié « GENDARMERIE ».
+</span> —</p>
+      <p>— Présentons l’individu devant l’Officier de Police Judiciaire Territorialement Compétent de permanence du poste de la Police Aux Frontières de <span id="paf_ville_o3">Saint Louis à Menton</span> à <span id="paf_heure_o">17 heures et 10 minutes</span>. L’horaire de présentation étant différé eu égard au délai de route. —</p>
+		<p> <span id="conf_paf_text" style="white-space:pre-line; color:#000;"></span> </p>
+		
+		<div class="signzone">
+        
+        <div class="signcell">L’APJA</div>
+		<div class="signcell">L’assistant</div>
+      </div>
+    </div>
+  </div>
   
+    <!-- 📁 Liste des PV sauvegardés -->
+  <div id="listePV" style="display:none; margin-top:30px;">
+    <h3 style="color:#003366;">📁 Mes PV sauvegardés</h3>
+    <div id="listePVcontenu" style="background:white;padding:10px;border-radius:10px;box-shadow:0 2px 5px rgba(0,0,0,0.2);"></div>
+    <button class="back-btn" onclick="fermerMesPV()">⬅ Retour au PV</button>
+  </div>
+  <!-- 🔼 Bouton remonter en haut -->
+<button id="scrollTopBtn" title="Remonter en haut" style="display:none;">
+  <i class="fa-solid fa-arrow-up"></i>
+</button>
+
+</section>
+
+
+
 <script>
+function showSection(id){
+  document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('homePage').style.display='none';
+  document.getElementById(id).classList.add('active');
+}
+function backHome(){
+  document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('homePage').style.display='grid';
+}
+</script>
+
+<script>
+  let assistIndex = 0;
+  function addAssistant(){
+    assistIndex++;
+    const wrap = document.getElementById('assist_list');
+    const div = document.createElement('div');
+    div.style.marginBottom = '8px';
+    div.innerHTML = `
+      <div class="row">
+        <div>
+          <label>Grade</label>
+          <input id="a_grade_${assistIndex}" placeholder="ex: Gendarme" />
+        </div>
+        <div>
+          <label>Nom</label>
+          <input id="a_nom_${assistIndex}" 
+       placeholder="NOM"
+       style="text-transform:uppercase"
+       oninput="this.value=this.value.toUpperCase()"
+       autocorrect="off"
+       autocapitalize="characters"
+       spellcheck="false">
+        </div>
+      </div>
+      <label>Prénom</label>
+      <input id="a_prenom_${assistIndex}" placeholder="Prénom" />
+     <label>Qualité</label>
+<select id="a_qual_${assistIndex}">
+  <option value="">— Sélectionner —</option>
+  <option value="APJA">APJA</option>
+  <option value="APJ">APJ</option>
+  <option value="OPJ">OPJ</option>
+  <option value="AFP">AFP</option>
+</select>
+
+
+      <label>Affectation</label>
+      <input id="a_affect_${assistIndex}" placeholder="ex: CRT 06/2 Cannes" />
+      <hr style="margin:10px 0;border:none;border-top:1px dashed #ddd">`;
+    wrap.appendChild(div);
+  }
+  // Un assistant par défaut
+  addAssistant();
+
+  function setTxt(id, v){ const el=document.getElementById(id); if(el) el.textContent = v || ''; }
+
+  function accordAssistEsr(esrSexe, count){
+    // renvoie la chaîne à insérer après "Assisté"
+    if(count>1) return 's';
+    return esrSexe==='f' ? 'e' : '';
+  }
+
+  function civilFromSexe(sexe){ return sexe==='f' ? 'Madame' : 'Monsieur'; }
+  function sexeLabel(sexe){ return sexe==='f' ? 'féminin' : 'masculin'; }
+  function neeFromSexe(sexe){ return sexe==='f' ? 'e' : ''; }
+
+// === Conversion automatique des abréviations de qualité ===
+function qualiteLongue(code) {
+  switch ((code || '').toUpperCase()) {
+    case 'APJA': return 'Agent de Police Judiciaire Adjoint (APJA)';
+    case 'APJ':  return 'Agent de Police Judiciaire (APJ)';
+    case 'OPJ':  return 'Officier de Police Judiciaire (OPJ)';
+    case 'AFP':  return 'Agent de la Force Publique (AFP)';
+    default:     return code;
+  }
+}
+
+  function generatePV(){
+  // === Met à jour le texte piéton avant génération ===
+if (typeof majTextePieton === "function") majTextePieton();
+
+	
+  // Fonction utilitaire : convertir HH:MM en texte
+function heureEnLettres(hhmm) {
+  if (!hhmm) return "";
+  const [h, m] = hhmm.split(":").map(Number);
+  let txt = `${h} heure${h > 1 ? 's' : ''}`;
+  if (m > 0) txt += ` et ${m} minute${m > 1 ? 's' : ''}`;
+  return txt;
+}
+
+    // ESR
+    const esr_grade = document.getElementById('esr_grade').value.trim();
+    const esr_nom   = document.getElementById('esr_nom').value.trim();
+    const esr_prenom= document.getElementById('esr_prenom').value.trim();
+    const esr_sexe  = document.getElementById('esr_sexe').value;
+    const esr_qual  = document.getElementById('esr_qualite').value.trim();
+	const esr_qual_long = qualiteLongue(esr_qual);
+    const esr_aff   = document.getElementById('esr_affect').value.trim();
+
+
+    // Assistants
+    const assistants=[];
+    for(let i=1;i<=assistIndex;i++){
+      const g=document.getElementById('a_grade_'+i)?.value.trim();
+      const n=document.getElementById('a_nom_'+i)?.value.trim();
+      const p=document.getElementById('a_prenom_'+i)?.value.trim();
+      const q=document.getElementById('a_qual_'+i)?.value.trim();
+      const a=document.getElementById('a_affect_'+i)?.value.trim();
+      if(g&&n&&p) assistants.push({g,n,p,q,a});
+    }
+
+    // Mission
+    const pv_num = document.getElementById('pv_num').value.trim();
+    
+    const mission_lieu = document.getElementById('mission_lieu').value.trim();
+    const hdeb = document.getElementById('mission_hdeb').value.trim();
+    const hfin = document.getElementById('mission_hfin').value.trim();
+    const dateL = document.getElementById('date_lettres').value.trim();
+    const heureL= document.getElementById('heure_lettres').value.trim();
+
+    // ESI
+    const esi_hc = document.getElementById('esi_hconstat').value.trim();
+    const veh_type = document.getElementById('veh_type').value;
+    const veh_immat= document.getElementById('veh_immat').value.trim();
+    const lieu_ctrl = document.getElementById('lieu_controle').value.trim();
+	const veh_marque = document.getElementById('veh_marque').value.trim();
+    const veh_pays = document.getElementById('veh_pays').value.trim();
+    const piece_id = document.getElementById('piece_id').value.trim();
+	const conducteur_genre = document.getElementById('conducteur_genre').value;
+    const esi_nom = document.getElementById('esi_nom').value.trim();
+    const esi_prenom = document.getElementById('esi_prenom').value.trim();
+    const esi_sexe = document.getElementById('esi_sexe').value;
+    const esi_dnaiss = document.getElementById('esi_dnaiss').value.trim();
+    const esi_lnaiss = document.getElementById('esi_lnaiss').value.trim();
+    const esi_nat = document.getElementById('esi_nat').value.trim();
+    const fpr = document.getElementById('fpr').value;
+    const agdref = document.getElementById('agdref').value;
+    const fichiersNat = document.getElementById('fichiers_nat').value.trim();
+    const palp_genre = document.getElementById('palp_genre').value;
+    const transport_type = document.getElementById('transport_type').value;
+    const paf_ville = document.getElementById('paf_ville').value.trim();
+	const paf_heure = document.getElementById('paf_heure').value.trim();
+
+	// Conversion en lettres
+const hdeb_txt = heureEnLettres(hdeb);
+const hfin_txt = heureEnLettres(hfin);
+const hc_txt = heureEnLettres(esi_hc);
+const paf_txt = heureEnLettres(paf_heure);
+const heureL_txt = heureEnLettres(heureL);
+
+    // Remplissage colonne gauche
+    setTxt('pv_num_o', pv_num);
+
+    // Nom complet affaire / entête si tu veux l’afficher
+    setTxt('aff_nomcomplet_o', (esi_nom+" "+esi_prenom).trim());
+
+    // En-tête centre
+    setTxt('date_lettres_o', dateL);
+    setTxt('heure_lettres_o', heureL_txt);
+
+    // ESR
+    setTxt('esr_grade_o', esr_grade||'');
+    setTxt('esr_nom_o', esr_nom||'');
+    setTxt('esr_prenom_o', esr_prenom||'');
+    setTxt('esr_qualite_o', esr_qual_long || '');
+    setTxt('esr_affect_o', esr_aff||'');
+
+    // Assistants rendu
+    const assistSuffix = accordAssistEsr(esr_sexe, assistants.length);
+    setTxt('assist_e_o', assistSuffix); // affiche e / s / vide
+   const assistTxt = assistants.length
+  ? assistants.map(a=>{
+      const qlong = qualiteLongue(a.q || '');
+      return `${a.g} ${a.n} ${a.p}${qlong?`, ${qlong}`:''}${a.a?`, affecté à la ${a.a}`:''}`;
+    }).join('; ')
+  : 'Grade Nom Prénom, Agent de Police Judiciaire Adjoint (APJA), affecté à la CRT';
+
+    setTxt('assist_list_o', assistTxt);
+
+    // Mission
+    setTxt('mission_lieu_o', mission_lieu);
+    setTxt('mission_hdeb_o', hdeb_txt);
+	setTxt('mission_hfin_o', hfin_txt);
+
+    // Véhicule / constatation
+    setTxt('esi_hconstat_o', hc_txt);
+    setTxt(
+  'veh_type_o',
+  veh_type.toLowerCase() === 'train'
+    ? 'train'
+    : veh_type.toLowerCase() === 'vl'
+    ? 'véhicule léger'
+    : veh_type.toLowerCase() === 'pl'
+    ? 'poids lourd'
+    : veh_type.toLowerCase() === 'personne'
+    ? 'individu circulant à pied'
+    : veh_type.toLowerCase() === 'bus'
+    ? 'autobus'
+    : 'véhicule'
+);
+
+
+    setTxt('veh_pays_o', veh_pays ? 'en ' + veh_pays : '');
+    setTxt('veh_marque_o', veh_marque);
+    setTxt('veh_immat_o', veh_immat);
+    setTxt('lieu_controle_o', lieu_ctrl);
+    setTxt('piece_id_o', piece_id);
+
+// === Adaptation du texte selon le type de véhicule ===
 (() => {
-  const state = {
-    vehicules:{train:0,bus:0,vl:0,pl:0},
-    cv:{train:0,bus:0,vl:0,pl:0},
-    cf:{train:0,bus:0,vl:0,pl:0},
-    infos:{grade:'', nomPrenom:'', nigend:'', crt:''}
-  };
-  let saveTimeout=null, crGenere=false, infosValidees=false;
+  const type = (veh_type || "").toLowerCase();
 
-  function debounceSave(){
-    if(saveTimeout) clearTimeout(saveTimeout);
-    saveTimeout = setTimeout(()=>{
-      localStorage.setItem('moyensData', JSON.stringify({
-        vehicules: state.vehicules,
-        cv: state.cv,
-        cf: state.cf
-      }));
-      localStorage.setItem('infosPersonnelles', JSON.stringify(state.infos));
-    },3000);
+  // 🚶‍♂️ Cas piéton → on ne modifie rien
+  if (type === "personne") return;
+
+  const constat = document.getElementById("constatation_o");
+  const signe = document.getElementById("signe_o");
+  const reponse = document.getElementById("conducteur_reponse_o");
+  const controle = document.getElementById("phrase_controle_o");
+
+  // === Cas TRAIN ===
+if (type === "train") {
+  // 1️⃣ Phrase de constatation
+  if (constat) {
+    constat.textContent = `— À ${hc_txt}, nous constatons la présence d’un train ${veh_marque || ""} immatriculé ${veh_pays || ""} sous le numéro ${veh_immat || ""}, en circulation et arrivant en gare dans notre direction. —`;
   }
 
-  function updateUI(){
-    ['train','bus','vl','pl'].forEach(t=>{
-      if(document.getElementById(t+'VehiclesCount'))
-        document.getElementById(t+'VehiclesCount').textContent = state.vehicules[t];
-      if(document.getElementById(t+'CvCount'))
-        document.getElementById(t+'CvCount').textContent = state.cv[t];
-      if(document.getElementById(t+'CfCount'))
-        document.getElementById(t+'CfCount').textContent = state.cf[t];
-    });
+  // 2️⃣ Phrase de contact conducteur/conductrice
+  if (signe) {
+    const article = document.getElementById("conducteur_article_o")?.textContent?.trim() || "au";
+    const label = document.getElementById("conducteur_label_o")?.textContent?.trim() || "conducteur";
+    signe.innerHTML = `— À l’arrêt du train, faisons signe <span id="conducteur_article_o">${document.getElementById("conducteur_article_o")?.textContent || "au"}</span> <span id="conducteur_label_o">${document.getElementById("conducteur_label_o")?.textContent || "conducteur"}</span> afin de lui indiquer que nous allons procéder à un contrôle. —`;
   }
 
-  function changeCount(type,field,action){
-    if(action==='plus') state[field][type]++;
-    else if(state[field][type]>0) state[field][type]--;
-    updateUI();
-    debounceSave();
+  // 3️⃣ Phrase d’obtempération (adaptée au genre)
+  if (reponse) {
+    const article2 = document.getElementById("conducteur_article2_o")?.textContent?.trim() || "Le";
+    const label2 = document.getElementById("conducteur_label2_o")?.textContent?.trim() || "conducteur";
+    reponse.innerHTML = `— ${article2} ${label2} obtempère à notre demande, nous déclinons notre qualité et le motif de notre contrôle. —`;
   }
 
-  // CV
-function addManualCv(type){
-  const input = document.getElementById(type+'CvManual');
-  if(!input) return;
-  const val = parseInt(input.value, 10);
-  if (!(val > 0)) { alert('Veuillez saisir un nombre entier > 0.'); input.focus(); input.select(); return; }
-  state.cv[type] += val;
-  updateUI(); debounceSave();
-  input.value = '';          // ← vide
-  input.placeholder = '0';   // ← indicatif
-  input.blur();              // (optionnel)
+  // 4️⃣ Phrase de contrôle
+  if (controle) {
+    controle.textContent = "— Procédons au contrôle d’identité des passagers à bord du train. —";
+  }
+
+  return;
 }
 
-// CF
-function addManualCf(type){
-  const input = document.getElementById(type+'CfManual');
-  if(!input) return;
-  const val = parseInt(input.value, 10);
-  if (!(val > 0)) { alert('Veuillez saisir un nombre entier > 0.'); input.focus(); input.select(); return; }
-  state.cf[type] += val;
-  updateUI(); debounceSave();
-  input.value = '';
-  input.placeholder = '0';
-  input.blur();
-}
 
-const siteConfig = {
-  "La Turbie": ["bus", "vl", "pl"],
-  "Breil": ["train", "bus"],
-  "DSI Tende": ["train", "bus", "vl", "pl"]
-};
-  
-  function generateCR() {
-  const site = localStorage.getItem("siteSelection");
-  const typesAAfficher = siteConfig[site] || ['train','bus','vl','pl'];
+  // === 🔹 CAS BUS / VL / PL / AUTRE ===
+  const texteConstatStd = `— À ${hc_txt}, nous constatons la présence d’un ${type === "vl" ? "véhicule léger" : type === "pl" ? "poids lourd" : type === "bus" ? "autobus" : "véhicule"} ${veh_marque || ""} immatriculé ${veh_pays ? " " + veh_pays : ""} sous le numéro ${veh_immat || ""} en circulation et arrivant dans notre direction. —`;
+  if (constat) constat.textContent = texteConstatStd;
 
-  let cr = '';
-  typesAAfficher.forEach(t => {
-    cr += `${t.charAt(0).toUpperCase()+t.slice(1)}: ${state.vehicules[t]} / ${state.cv[t]} CV / ${state.cf[t]} CF\n`;
-  });
+  // 🧩 Ici on garde les spans dynamiques pour les accords de genre
+  if (signe) {
+    let lieu = lieu_ctrl || "sur le bas-côté";
+    if (type === "bus") lieu = lieu_ctrl || "sur le quai de la gare";
 
-  const totalVehicules = typesAAfficher.reduce((a,t)=>a+state.vehicules[t],0);
-  const totalPersonnes = typesAAfficher.reduce((a,t)=>a+state.cv[t]+state.cf[t],0);
-
-  cr += `\nTOTAL MOYENS : ${totalVehicules}\nTOTAL PERSONNES : ${totalPersonnes}`;
-
-  if (document.getElementById('compteRendu'))
-    document.getElementById('compteRendu').value = cr;
-
-  crGenere = true;
-}
-
-  function saveInfos(){
-    state.infos.grade = document.getElementById('grade')?.value.trim() || '';
-    state.infos.nomPrenom = document.getElementById('nomPrenom')?.value.trim() || '';
-    state.infos.nigend = document.getElementById('nigend')?.value.trim() || '';
-    state.infos.crt = document.getElementById('crt')?.value.trim() || '';
-    localStorage.setItem('infosPersonnelles', JSON.stringify(state.infos));
+    signe.innerHTML = `— Faisons signe réglementairement <span id="conducteur_article_o">${document.getElementById("conducteur_article_o")?.textContent || "au"}</span> <span id="conducteur_label_o">${document.getElementById("conducteur_label_o")?.textContent || "conducteur"}</span> de stationner son véhicule correctement et en sécurité ${lieu}, afin de procéder au contrôle de l’identité des passagers du véhicule. —`;
   }
 
-  function loadInfos(){
-    if(document.getElementById('grade')) document.getElementById('grade').value = state.infos.grade;
-    if(document.getElementById('nomPrenom')) document.getElementById('nomPrenom').value = state.infos.nomPrenom;
-    if(document.getElementById('nigend')) document.getElementById('nigend').value = state.infos.nigend;
-    if(document.getElementById('crt')) document.getElementById('crt').value = state.infos.crt;
+  if (reponse) {
+    reponse.innerHTML = `— <span id="conducteur_article2_o">${document.getElementById("conducteur_article2_o")?.textContent || "Le"}</span> <span id="conducteur_label2_o">${document.getElementById("conducteur_label2_o")?.textContent || "conducteur"}</span> obtempère à notre demande, déclinons notre qualité et le motif de notre contrôle. —`;
   }
 
-  function disableInfos(disable){
-    ['grade','nomPrenom','nigend','crt','validerInfos'].forEach(id=>{
-      if(document.getElementById(id)) document.getElementById(id).disabled = disable;
-    });
-  }
-
-  // Charger sauvegardes
-  const savedData = localStorage.getItem('moyensData');
-  if(savedData){
-    try{
-      const parsed = JSON.parse(savedData);
-      state.vehicules = parsed.vehicules || state.vehicules;
-      state.cv = parsed.cv || state.cv;
-      state.cf = parsed.cf || state.cf;
-    }catch(e){}
-  }
-  const savedInfos = localStorage.getItem('infosPersonnelles');
-  if(savedInfos){
-    try{ state.infos = JSON.parse(savedInfos); }catch(e){}
-  }
-
-  if(state.infos.grade||state.infos.nomPrenom||state.infos.nigend||state.infos.crt){
-    infosValidees=true;
-    disableInfos(true);
-  }
-
-  updateUI();
-  loadInfos();
-
-  // Boutons plus/minus
-  document.querySelectorAll('button.plusminus').forEach(b=>
-    b.addEventListener('click',()=>changeCount(b.dataset.type,b.dataset.field,b.dataset.action))
-  );
-  ['train','bus','vl','pl'].forEach(t=>{
-    if(document.getElementById(t+'CvAddManualBtn'))
-      document.getElementById(t+'CvAddManualBtn').addEventListener('click',()=>addManualCv(t));
-  });
-['train','bus','vl','pl'].forEach(t=>{
-  if(document.getElementById(t+'CfAddManualBtn'))
-    document.getElementById(t+'CfAddManualBtn').addEventListener('click',()=>addManualCf(t));
-});
-['train','bus','vl','pl'].forEach(t=>{
-  ['Cv','Cf'].forEach(kind=>{
-    const inp = document.getElementById(`${t}${kind}Manual`);
-    if(!inp) return;
-
-    inp.addEventListener('focus', () => {
-      if (inp.value === '0') inp.value = '';
-      if (inp.value) inp.select();
-    });
-
-    const btn = document.getElementById(`${t}${kind}AddManualBtn`);
-    if(btn){
-      inp.addEventListener('keydown', (e)=>{
-        if(e.key === 'Enter') btn.click();
-      });
-    }
-  });
-});
-  // Boutons Compte rendu
-if (document.getElementById('generateBtn'))
-  document.getElementById('generateBtn').addEventListener('click', generateCR);
-
-if (document.getElementById('transmettreBtn'))
-  document.getElementById('transmettreBtn').addEventListener('click', () => {
-    if (!crGenere) return alert("Générez d'abord le compte rendu !");
-    if (!infosValidees) return alert("Validez vos informations !");
-    
-    const grade = document.getElementById('grade')?.value.trim() || '';
-    const nomPrenom = document.getElementById('nomPrenom')?.value.trim() || '';
-    const nigend = document.getElementById('nigend')?.value.trim() || '';
-    const crt = document.getElementById('crt')?.value.trim() || '';
-    const site = localStorage.getItem("siteSelection") || '';
-
-    // Détermination des types selon le site choisi
-    const typesAAfficher = siteConfig[site] || ['train','bus','vl','pl'];
-
-    let contenuQR = `GRADE: ${grade}\nNOM: ${nomPrenom}\nNIGEND: ${nigend}\nCRT: ${crt}\n\n`;
-
-    // On boucle uniquement sur les types du site
-    typesAAfficher.forEach(t => {
-      const typeLabel = t.charAt(0).toUpperCase() + t.slice(1);
-      contenuQR += `${typeLabel}: ${state.vehicules[t]} / ${state.cv[t]} CV / ${state.cf[t]} CF\n`;
-    });
-
-    // Totaux adaptés aussi
-    const totalVehicules = typesAAfficher.reduce((a, t) => a + state.vehicules[t], 0);
-    const totalPersonnes = typesAAfficher.reduce((a, t) => a + state.cv[t] + state.cf[t], 0);
-    contenuQR += `\nTOTAL MOYENS : ${totalVehicules}\nTOTAL PERSONNES : ${totalPersonnes}`;
-
-    if (document.getElementById('compteRendu'))
-      document.getElementById('compteRendu').value = contenuQR;
-
-    // Génération du QR code
-    const qrDiv = document.getElementById('qrcode');
-    if (qrDiv) {
-      qrDiv.innerHTML = "";
-      new QRCode(qrDiv, {
-        text: contenuQR,
-        width: 256,
-        height: 256,
-        colorDark: "#000000",
-        colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.L
-      });
-    }
-  });
-
-  if (document.getElementById('resetBtn'))
-    document.getElementById('resetBtn').addEventListener('click', ()=>{
-      if(!confirm("Voulez-vous vraiment tout effacer ?")) return;
-      state.vehicules={train:0,bus:0,vl:0,pl:0};
-      state.cv={train:0,bus:0,vl:0,pl:0};
-      state.cf={train:0,bus:0,vl:0,pl:0};
-      updateUI();
-      crGenere=false;
-      if(document.getElementById('compteRendu')) document.getElementById('compteRendu').value='';
-      if(document.getElementById('qrcode')) document.getElementById('qrcode').innerHTML='';
-      localStorage.removeItem('moyensData');
-      localStorage.removeItem('siteSelection');
-	   displaySelectedSite();
-       filtrerCompteurs();
-    });
-
-  // Boutons Infos
-  if (document.getElementById('validerInfos'))
-    document.getElementById('validerInfos').addEventListener('click',()=>{
-      const grade = document.getElementById('grade')?.value.trim();
-      const nomPrenom = document.getElementById('nomPrenom')?.value.trim();
-      const nigend = document.getElementById('nigend')?.value.trim();
-      const crt = document.getElementById('crt')?.value.trim();
-      if(!grade||!nomPrenom||!nigend||!crt) return alert("Remplissez tous les champs !");
-      infosValidees = true;
-      saveInfos();
-      disableInfos(true);
-      alert(`Informations validées :\nGrade: ${grade}\nNom Prénom: ${nomPrenom}\nNigend: ${nigend}\nCRT: ${crt}`);
-    });
-
-  if (document.getElementById('resetInfosBtn'))
-    document.getElementById('resetInfosBtn').addEventListener('click',()=>{
-      if(!confirm("Voulez-vous vraiment effacer les infos ?")) return;
-      state.infos = {grade:'',nomPrenom:'',nigend:'',crt:''};
-      localStorage.removeItem('infosPersonnelles');
-      loadInfos();
-      disableInfos(false);
-      infosValidees = false;
-      alert("Infos effacées");
-    });
-
-})();  
-
-// Fonction de navigation
-  function showPage(pageId) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById(pageId).classList.add('active');
-
-  if (pageId === "vehiculesPage") {
-    filtrerCompteurs(); // applique le filtre à chaque fois qu’on ouvre la page compteurs
-  }
-
-  if (pageId === "homePage") {
-    displaySelectedSite(); // met à jour le bandeau sur l’accueil
-  }
-}
-
-// Service Worker
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('service-worker.js')
-      .then(reg => console.log("✅ Service Worker enregistré", reg))
-      .catch(err => console.log("❌ Erreur Service Worker", err));
-  });
-}
-// --------- SCRIPT FICHE ESI ----------
-function setCurrentDateTime() {
-    const now = new Date();
-    const timeString = now.toTimeString().slice(0, 5);
-    const dateString = now.toISOString().split('T')[0];
-    
-    document.getElementById('heure').value = timeString;
-    document.getElementById('dateIntervention').value = dateString;
-}
-
-// Initialiser avec la date/heure actuelle
-setCurrentDateTime();
-
-function calculerAge() {
-    const jour = parseInt(document.getElementById("jour").value);
-    const mois = parseInt(document.getElementById("mois").value) - 1;
-    const annee = parseInt(document.getElementById("annee").value);
-    if (!jour || mois < 0 || !annee) return;
-    const today = new Date();
-    const naissance = new Date(annee, mois, jour);
-    let age = today.getFullYear() - naissance.getFullYear();
-    const m = today.getMonth() - naissance.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < naissance.getDate())) age--;
-    document.getElementById("age").value = age;
-}
-
-function autoNext(input, nextInputId, maxLength) {
-    input.addEventListener('input', function() {
-        if (this.value.length >= maxLength) {
-            document.getElementById(nextInputId).focus();
-        }
-        calculerAge();
-    });
-}
-
-autoNext(document.getElementById('jour'), 'mois', 2);
-autoNext(document.getElementById('mois'), 'annee', 2);
-document.getElementById('annee').addEventListener('input', calculerAge);
-
-document.getElementById('immatriculation').addEventListener('input', function() {
-    this.value = this.value.toUpperCase();
-});
-
-// Gestion du champ "Autre" pour les pièces d'identité
-document.getElementById('autreCheck').addEventListener('change', function() {
-    const autreTexte = document.getElementById('autreTexte');
-    if (this.checked) {
-        autreTexte.disabled = false;
-        autreTexte.focus();
-    } else {
-        autreTexte.disabled = true;
-        autreTexte.value = '';
-        this.value = '';
-    }
-});
-
-document.getElementById('autreTexte').addEventListener('input', function() {
-    const autreCheck = document.getElementById('autreCheck');
-    if (this.value.trim()) {
-        autreCheck.value = 'Autre : ' + this.value.trim();
-    } else {
-        autreCheck.value = '';
-    }
-});
-
-function formatDateNaissance(jour, mois, annee) {
-    return `${jour.toString().padStart(2, '0')}/${mois.toString().padStart(2, '0')}/${annee}`;
-}
-
-function formatDateIntervention(dateStr) {
-    if (!dateStr) return '';
-    const [annee, mois, jour] = dateStr.split("-");
-    return `${jour}/${mois}/${annee}`;
-}
-
-document.getElementById('ficheForm').addEventListener('submit', function(e){
-    e.preventDefault();
-    const pieces = Array.from(document.querySelectorAll('input[name="piece"]:checked')).map(cb => cb.value);
-    
-    const jourVal = document.getElementById('jour').value;
-    const moisVal = document.getElementById('mois').value;
-    const anneeVal = document.getElementById('annee').value;
-    
-    const fiche = {
-        categorie: document.getElementById('categorie').value,
-        nom: document.getElementById('nom').value,
-        prenom: document.getElementById('prenom').value,
-        sexe: document.getElementById('sexe').value,
-        nationalite: document.getElementById('nationalite').value,
-        jour: jourVal,
-        mois: moisVal,
-        annee: anneeVal,
-        dateNaissance: formatDateNaissance(jourVal, moisVal, anneeVal),
-        age: document.getElementById('age').value,
-        heure: document.getElementById('heure').value,
-        dateIntervention: document.getElementById('dateIntervention').value,
-        lieuInterpellation: document.getElementById('lieuInterpellation').value,
-suitesDonnees: document.getElementById('suitesDonnees').value,
- villeDepart: document.getElementById('villeDepart').value,
-        paysDepart: document.getElementById('paysDepart').value,
-        villeDestination: document.getElementById('villeDestination').value,
-        paysDestination: document.getElementById('paysDestination').value,
-        vehicule: document.getElementById('vehicule').value,
-        immatriculation: document.getElementById('immatriculation').value,
-        piecesIdentite: pieces
-    };
-    
-    const fiches = JSON.parse(localStorage.getItem('fichesESI') || '[]');
-    fiches.push(fiche);
-    localStorage.setItem('fichesESI', JSON.stringify(fiches));
-    this.reset();
-    setCurrentDateTime();
-    afficherHistorique();
-});
-
-function afficherHistorique() {
-    const historiqueDiv = document.getElementById('historique');
-    historiqueDiv.innerHTML = '';
-    const fiches = JSON.parse(localStorage.getItem('fichesESI') || '[]');
-    fiches.forEach((fiche, index) => {
-        const ficheDiv = document.createElement('div');
-        ficheDiv.className = 'fiche';
-        ficheDiv.innerHTML = `
-            <strong>Fiche #${index+1} ${fiche.categorie}</strong><br>
-            Nom: ${fiche.nom} ${fiche.prenom} | Sexe: ${fiche.sexe} | Nationalité: ${fiche.nationalite}<br>
-            Date de naissance: ${fiche.dateNaissance || 'Non renseignée'} | Âge: ${fiche.age} ans<br>
-           Intervention: ${fiche.heure || fiche.heureDate} le ${formatDateIntervention(fiche.dateIntervention)} 
-Lieu: ${fiche.lieuInterpellation} | Suites données: ${fiche.suitesDonnees || ''}<br>
-           Départ: ${fiche.villeDepart}, ${fiche.paysDepart} | Destination: ${fiche.villeDestination}, ${fiche.paysDestination}<br>
-            Véhicule: ${fiche.vehicule} | Immatriculation: ${fiche.immatriculation}<br>
-            Pièces d'identité: ${fiche.piecesIdentite.join(", ")}<br>
-            <button onclick="modifierFiche(${index})" class="green">Modifier</button>
-            <button onclick="supprimerFiche(${index})" class="red">Supprimer</button>
-        `;
-        historiqueDiv.appendChild(ficheDiv);
-    });
-}
-
-function supprimerFiche(index) {
-    if (confirm("Voulez-vous vraiment supprimer cette fiche ?")) {
-        const fiches = JSON.parse(localStorage.getItem('fichesESI') || '[]');
-        fiches.splice(index, 1);
-        localStorage.setItem('fichesESI', JSON.stringify(fiches));
-        afficherHistorique();
-    }
-}
-
-function modifierFiche(index) {
-    const fiches = JSON.parse(localStorage.getItem('fichesESI') || '[]');
-    const fiche = fiches[index];
-document.getElementById('categorie').value = fiche.categorie;
-    document.getElementById('nom').value = fiche.nom;
-    document.getElementById('prenom').value = fiche.prenom;
-    document.getElementById('sexe').value = fiche.sexe;
-    document.getElementById('nationalite').value = fiche.nationalite;
-    document.getElementById('jour').value = fiche.jour;
-    document.getElementById('mois').value = fiche.mois;
-    document.getElementById('annee').value = fiche.annee;
-    document.getElementById('age').value = fiche.age;
-    document.getElementById('villeDepart').value = fiche.villeDepart;
-    document.getElementById('paysDepart').value = fiche.paysDepart;
-    document.getElementById('villeDestination').value = fiche.villeDestination;
-    document.getElementById('paysDestination').value = fiche.paysDestination;
-    document.getElementById('heure').value = fiche.heure || '';
-    document.getElementById('dateIntervention').value = fiche.dateIntervention || '';
-    document.getElementById('lieuInterpellation').value = fiche.lieuInterpellation;
-document.getElementById('suitesDonnees').value = fiche.suitesDonnees || '';
-    document.getElementById('vehicule').value = fiche.vehicule;
-    document.getElementById('immatriculation').value = fiche.immatriculation;
-    
-    // Réinitialiser toutes les cases à cocher
-    document.querySelectorAll('input[name="piece"]').forEach(cb => cb.checked = false);
-    document.getElementById('autreTexte').value = '';
-    document.getElementById('autreTexte').disabled = true;
-    
-    // Cocher les pièces d'identité correspondantes
-    fiche.piecesIdentite.forEach(val => {
-        if (val.startsWith('Autre : ')) {
-            document.getElementById('autreCheck').checked = true;
-            document.getElementById('autreTexte').disabled = false;
-            document.getElementById('autreTexte').value = val.replace('Autre : ', '');
-            document.getElementById('autreCheck').value = val;
-        } else {
-            const cb = Array.from(document.querySelectorAll('input[name="piece"]')).find(c => c.value === val);
-            if (cb) cb.checked = true;
-        }
-    });
-    
-    fiches.splice(index, 1);
-    localStorage.setItem('fichesESI', JSON.stringify(fiches));
-    afficherHistorique();
-}
-
-document.getElementById('effacerFiches').addEventListener('click', function() {
-    if (confirm("Voulez-vous vraiment effacer toutes les fiches ?")) {
-        localStorage.removeItem('fichesESI');
-        afficherHistorique();
-        alert("Toutes les fiches ont été effacées !");
-    }
-});
-
-afficherHistorique();
-/* ---------- BLOC JS COMPLET POUR ESI+VISA (195 pays) ---------- */
-(function(){
-  // 1) Liste d'environ 195 pays
-  const allCountries = [
-    "Afghanistan","Albanie","Algérie","Allemagne","Andorre","Angola","Antigua-et-Barbuda","Argentine","Arménie","Australie",
-    "Autriche","Azerbaïdjan","Bahamas","Bahreïn","Bangladesh","Barbade","Biélorussie","Belgique","Belize","Bénin",
-    "Bhoutan","Bolivie","Bosnie-Herzégovine","Botswana","Brésil","Brunei","Bulgarie","Burkina Faso","Burundi","Cabo Verde",
-    "Cambodge","Cameroun","Canada","République centrafricaine","Tchad","Chili","Chine","Colombie","Comores","Congo",
-    "République démocratique du Congo","Costa Rica","Côte d'Ivoire","Croatie","Cuba","Chypre","République tchèque","Danemark","Djibouti","Dominique",
-    "République dominicaine","Équateur","Égypte","El Salvador","Guinée équatoriale","Érythrée","Estonie","Eswatini","Éthiopie","Fidji",
-    "Finlande","France","Gabon","Gambie","Géorgie","Ghana","Grèce","Grenade","Guatemala",
-    "Guinée","Guinée-Bissau","Guyana","Haïti","Honduras","Hongrie","Islande","Inde","Indonésie","Iran",
-    "Irak","Irlande","Israël","Italie","Jamaïque","Japon","Jordanie","Kazakhstan","Kenya","Kiribati",
-    "Koweït","Kirghizistan","Laos","Lettonie","Liban","Lesotho","Liberia","Libye","Liechtenstein","Lituanie",
-    "Luxembourg","Macédoine du Nord","Madagascar","Malawi","Malaisie","Maldives","Mali","Malte","Îles Marshall","Mauritanie",
-    "Maurice","Mexique","Micronésie","Moldavie","Monaco","Mongolie","Monténégro","Maroc","Mozambique","Myanmar",
-    "Namibie","Nauru","Népal","Pays-Bas","Nouvelle-Zélande","Nicaragua","Niger","Nigéria","Corée du Nord","Norvège",
-    "Oman","Pakistan","Palaos","Panama","Papouasie-Nouvelle-Guinée","Paraguay","Pérou","Philippines","Pologne","Portugal",
-    "Qatar","Roumanie","Russie","Rwanda","Saint-Kitts-et-Nevis","Sainte-Lucie","Saint-Vincent-et-les-Grenadines","Samoa","Saint-Marin","Sao Tomé-et-Principe",
-    "Arabie Saoudite","Sénégal","Serbie","Seychelles","Sierra Leone","Singapour","Slovaquie","Slovénie","Îles Salomon","Somalie",
-    "Afrique du Sud","Corée du Sud","Soudan du Sud","Espagne","Sri Lanka","Soudan","Suriname","Suède","Suisse","Syrie",
-    "Taïwan","Tadjikistan","Tanzanie","Thaïlande","Timor-Leste","Togo","Tonga","Trinité-et-Tobago","Tunisie","Turquie",
-    "Turkménistan","Tuvalu","Ouganda","Ukraine","Émirats arabes unis","Royaume-Uni","États-Unis","Uruguay","Ouzbékistan","Vanuatu",
-    "Vatican","Venezuela","Vietnam","Yémen","Zambie","Zimbabwe","Kosovo"
-  ];
-
-  // 2) Pays sans visa court ni long
-  const neverNeed = [
-    "Autriche","Belgique","Bulgarie","Chypre","République tchèque","Croatie","Danemark","Estonie","Finlande","France",
-    "Allemagne","Grèce","Hongrie","Irlande","Italie","Lettonie","Lituanie","Luxembourg","Malte","Pays-Bas",
-    "Pologne","Portugal","Roumanie","Slovaquie","Slovénie","Espagne","Suède",
-    "Islande","Liechtenstein","Norvège","Suisse","Monaco","Andorre","Saint-Marin","Vatican"
-  ];
-
-  // 3) Pays exemptés de visa court séjour
-  const shortExempt = [
-    "Albanie","Bosnie-Herzégovine","Monténégro","Macédoine du Nord","Serbie","Moldavie","Ukraine","Géorgie",
-    "Argentine","Bahamas","Barbade","Bolivie","Brésil","Canada","Chili","Colombie","Costa Rica",
-    "Dominique","Équateur","El Salvador","Grenade","Guatemala","Guyana","Honduras","Jamaïque","Mexique",
-    "Nicaragua","Panama","Paraguay","Pérou","Suriname","Trinité-et-Tobago","Uruguay","Venezuela",
-    "Australie","Brunei","Japon","Malaisie","Nouvelle-Zélande","Singapour","Corée du Sud","Israël","Taïwan",
-    "Émirats arabes unis","Kiribati","Îles Marshall","Micronésie","Nauru","Palaos","Samoa","Îles Salomon","Tonga","Tuvalu","Vanuatu",
-    "Maurice","Seychelles","États-Unis"
-  ];
-
-  // 4) Construction de visaData
-  const visaData = { court: {}, long: {} };
-  allCountries.forEach(country => {
-    if (neverNeed.includes(country)) {
-      visaData.court[country] = false;
-      visaData.long[country] = false;
-    } else if (shortExempt.includes(country)) {
-      visaData.court[country] = false;
-      visaData.long[country] = true;
-    } else {
-      visaData.court[country] = true;
-      visaData.long[country] = true;
-    }
-  });
-
-  // 5) Pays avec exemption biométrique
-  const biometricExemptions = ["Albanie","Bosnie-Herzégovine","Macédoine du Nord","Monténégro","Serbie","Moldavie","Ukraine","Géorgie"];
-
-  // 6) Système d'autocomplétion
-  let selectedCountry = '';
-  let currentSelection = -1;
-  const paysInput = document.getElementById('paysInput');
-  const paysDropdown = document.getElementById('paysDropdown');
-  
-  const sortedCountries = allCountries.slice().sort((a,b) => a.localeCompare(b, 'fr', {ignorePunctuation: true}));
-
-  function normalizeText(text) {
-    return text
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '') // Supprime les accents
-      .replace(/[-\s]/g, ''); // Supprime tirets et espaces
-  }
-
-  function filterCountries(searchTerm) {
-    const normalizedSearch = normalizeText(searchTerm);
-    return sortedCountries.filter(country => 
-      normalizeText(country).includes(normalizedSearch)
-    ).slice(0, 10);
-  }
-
-  function showDropdown(countries) {
-    paysDropdown.innerHTML = '';
-    if (countries.length === 0) {
-      paysDropdown.style.display = 'none';
-      return;
-    }
-    
-    countries.forEach((country, index) => {
-      const option = document.createElement('div');
-      option.className = 'pays-option';
-      option.textContent = country;
-      option.addEventListener('click', () => selectCountry(country));
-      paysDropdown.appendChild(option);
-    });
-    
-    paysDropdown.style.display = 'block';
-    currentSelection = -1;
-  }
-
-  function selectCountry(country) {
-    selectedCountry = country;
-    paysInput.value = country;
-    paysDropdown.style.display = 'none';
-    checkVisa(); // Vérification automatique
-  }
-
-  function hideDropdown() {
-    setTimeout(() => {
-      paysDropdown.style.display = 'none';
-    }, 200);
-  }
-
-  function updateSelection(direction) {
-    const options = paysDropdown.querySelectorAll('.pays-option');
-    if (options.length === 0) return;
-    
-    if (currentSelection >= 0) {
-      options[currentSelection].classList.remove('selected');
-    }
-    
-    currentSelection += direction;
-    if (currentSelection < 0) currentSelection = options.length - 1;
-    if (currentSelection >= options.length) currentSelection = 0;
-    
-    options[currentSelection].classList.add('selected');
-    options[currentSelection].scrollIntoView({ block: 'nearest' });
-  }
-
-  // Fonction de vérification automatique
-  function checkVisa() {
-    const pays = selectedCountry || paysInput.value.trim();
-    const duree = document.getElementById('duree').value;
-    const resultat = document.getElementById('resultat');
-    
-    if (!pays || !allCountries.includes(pays)) {
-      resultat.innerHTML = '';
-      return;
-    }
-    
-    const needsVisa = visaData[duree][pays];
-    let html = '';
-    
-    if (needsVisa) {
-      html = `<span style="color: #cc0000;">Visa requis</span> pour ce séjour (${duree === 'court' ? 'court (<90j)' : 'long (>90j)'}). ` +
-             `Voir la procédure sur <a href="https://france-visas.gouv.fr/web/france-visas/assistant-visa" target="_blank" rel="noopener">France-Visas</a>.`;
-    } else {
-      html = `<span style="color: #008000;">Pas de visa requis</span> pour ce séjour (${duree === 'court' ? 'court (<90j)' : 'long (>90j)'}). ` +
-             `Vérifier conditions particulières sur <a href="https://france-visas.gouv.fr/web/france-visas/assistant-visa" target="_blank" rel="noopener">France-Visas</a>.`;
-    }
-
-    if (!needsVisa && duree === 'court' && biometricExemptions.includes(pays)) {
-      html += ` <br><small>Note : l'exemption peut demander un passeport biométrique.</small>`;
-    }
-    
-    resultat.innerHTML = html;
-  }
-
-  // Event listeners
-  paysInput.addEventListener('input', (e) => {
-    const searchTerm = e.target.value.trim();
-    selectedCountry = '';
-    
-    if (searchTerm.length === 0) {
-      paysDropdown.style.display = 'none';
-      document.getElementById('resultat').innerHTML = '';
-      return;
-    }
-    
-    const filtered = filterCountries(searchTerm);
-    showDropdown(filtered);
-  });
-
-  paysInput.addEventListener('keydown', (e) => {
-    const dropdown = paysDropdown;
-    const options = dropdown.querySelectorAll('.pays-option');
-    
-    if (dropdown.style.display === 'none' || options.length === 0) return;
-    
-    switch(e.key) {
-      case 'ArrowDown':
-        e.preventDefault();
-        updateSelection(1);
+  if (controle) {
+    let phrase = "";
+    switch (type) {
+      case "bus":
+        phrase = "— Procédons au contrôle d’identité des passagers à bord du bus. —";
         break;
-      case 'ArrowUp':
-        e.preventDefault();
-        updateSelection(-1);
+      case "vl":
+        phrase = "— Procédons au contrôle d’identité des passagers à bord du véhicule léger. —";
         break;
-      case 'Enter':
-        e.preventDefault();
-        if (currentSelection >= 0) {
-          selectCountry(options[currentSelection].textContent);
-        }
+      case "pl":
+        phrase = "— Procédons au contrôle d’identité des passagers à bord du poids lourd. —";
         break;
-      case 'Escape':
-        paysDropdown.style.display = 'none';
-        break;
+      default:
+        phrase = "— Procédons au contrôle d’identité des passagers à bord du véhicule. —";
     }
-  });
-
-  paysInput.addEventListener('blur', hideDropdown);
-  paysInput.addEventListener('focus', (e) => {
-    if (e.target.value.trim()) {
-      const filtered = filterCountries(e.target.value);
-      showDropdown(filtered);
-    }
-  });
-
-  // Event listener pour le changement de durée
-  document.getElementById('duree').addEventListener('change', checkVisa);
-
-  // Fonction globale pour rétrocompatibilité (au cas où)
-  window.verifierVisa = checkVisa;
-
-  window._esiVisaData = { allCountries, neverNeed, shortExempt, visaData, biometricExemptions };
-  console.debug("ESI+Visa: visaData initialisé pour", allCountries.length, "pays. Voir window._esiVisaData.");
-  
+    controle.textContent = phrase;
+  }
 })();
-  // Filtrage site
-  function filtrerCompteurs() {
-  const site = localStorage.getItem("siteSelection");
 
-  const trainCard = document.getElementById("trainCard");
-  const busCard   = document.getElementById("busCard");
-  const vlCard    = document.getElementById("vlCard");
-  const plCard    = document.getElementById("plCard");
 
-  // cacher tout
-  if (trainCard) trainCard.style.display = "none";
-  if (busCard)   busCard.style.display = "none";
-  if (vlCard)    vlCard.style.display = "none";
-  if (plCard)    plCard.style.display = "none";
+// Accord conducteur / conductrice
+if (conducteur_genre === 'f') {
+  setTxt('conducteur_article_o', 'à la');
+  setTxt('conducteur_label_o', 'conductrice');
+} else {
+  setTxt('conducteur_article_o', 'au');
+  setTxt('conducteur_label_o', 'conducteur');
+}
+// Deuxième accord (Le conducteur / La conductrice)
+if (conducteur_genre === 'f') {
+  setTxt('conducteur_article2_o', 'La');
+  setTxt('conducteur_label2_o', 'conductrice');
+} else {
+  setTxt('conducteur_article2_o', 'Le');
+  setTxt('conducteur_label2_o', 'conducteur');
+}
 
- // 🔥 si aucun site choisi → afficher tout
-  if (!site) {
-    if (trainCard) trainCard.style.display = "block";
-    if (busCard)   busCard.style.display = "block";
-    if (vlCard)    vlCard.style.display = "block";
-    if (plCard)    plCard.style.display = "block";
+    // Identité ESI
+    const civil = civilFromSexe(esi_sexe);
+    const nee = neeFromSexe(esi_sexe);
+    setTxt('esi_civil_o', civil);
+	setTxt('esi_civil_left_o', civil);
+    setTxt('esi_nom_o', esi_nom);
+    setTxt('esi_prenom_o', esi_prenom);
+    setTxt('esi_nee_o', nee);
+    setTxt('esi_dnaiss_o', esi_dnaiss);
+    setTxt('esi_lnaiss_o', esi_lnaiss);
+    setTxt('esi_nat_o', esi_nat);
+    setTxt('esi_sexe_o', sexeLabel(esi_sexe));
+
+
+    // Fichiers
+    setTxt('fpr_o', fpr);
+    setTxt('agdref_o', agdref);
+    setTxt('fichiers_nat_o', fichiersNat);
+
+    // PAF / suites
+    setTxt('paf_ville_o1', paf_ville);
+    setTxt('paf_ville_o2', paf_ville);
+    setTxt('paf_ville_o3', paf_ville);
+
+    // Suites – civilités répétées
+    setTxt('esi_civil2_o', civil);
+    setTxt('esi_nom2_o', esi_nom);
+    setTxt('esi_prenom2_o', esi_prenom);
+
+    setTxt('esi_civil3_o', civil);
+    setTxt('esi_nom3_o', esi_nom);
+    setTxt('esi_prenom3_o', esi_prenom);
+
+  // === PALPATION & TRANSPORT ===
+setTxt('palp_genre_o', 
+  palp_genre === 'f' ? 'féminin' :
+  palp_genre === 'm' ? 'masculin' :
+  palp_genre === 'impossible' ? 'impossible' : ''
+);
+
+// === PALPATION & TRANSPORT ===
+setTxt('palp_genre_o', 
+  palp_genre === 'f' ? 'féminin' :
+  palp_genre === 'm' ? 'masculin' :
+  palp_genre === 'impossible' ? 'impossible' : ''
+);
+
+
+
+    // Phrase de transport selon le type choisi
+let phraseTransport = '';
+if (transport_type === 'GENDARMERIE') {
+  phraseTransport = `Transportons l’individu sans contrainte ni entraves au poste de la Police Aux Frontières de ${paf_ville}, à bord de notre véhicule de service sérigraphié « GENDARMERIE ».`;
+} else {
+  phraseTransport = `Transportons l’individu sans contrainte ni entraves au poste de la Police Aux Frontières de ${paf_ville}, à bord de notre véhicule de service de translation mis à disposition par la Police Nationale.`;
+}
+setTxt('transport_phrase_o', phraseTransport);
+setTxt('paf_heure_o', paf_txt);
+// Accord passager / pronom selon le sexe de l'ESI
+if (esi_sexe === 'f') {
+  setTxt('passager_article_o', 'une');
+  setTxt('passager_label_o', 'passagère');
+  setTxt('individu_phrase_o', 'Cet individu'); // reste neutre administratif
+  setTxt('passager_pronom_o', 'cette dernière');
+} else {
+  setTxt('passager_article_o', 'un');
+  setTxt('passager_label_o', 'passager');
+  setTxt('individu_phrase_o', 'Cet individu');
+  setTxt('passager_pronom_o', 'ce dernier');
+}
+
+// === Phrase dynamique selon la pièce d’identité ===
+(() => {
+  const pieceInput = document.getElementById('piece_id');
+  const target = document.getElementById('piece_phrase_part_o');
+  if (!pieceInput || !target) {
+    console.warn("⚠️ Élément manquant pour la phrase d'identité.");
     return;
   }
+
+  const piece_id = pieceInput.value.trim();
+  const phrase = piece_id
+    ? `est en mesure de nous présenter une pièce d'identité de type: ${piece_id}`
+    : `n’est pas en mesure de nous présenter un document pouvant justifier de son identité`;
   
-  // afficher selon site choisi
-  if (site === "Breil") {
-    if (trainCard) trainCard.style.display = "block";
-    if (busCard)   busCard.style.display = "block";
-  } else if (site === "La Turbie") {
-    if (vlCard)    vlCard.style.display = "block";
-    if (plCard)    plCard.style.display = "block";
-    if (busCard)   busCard.style.display = "block";
-  } else { // DSI Tende ou autre
-    if (trainCard) trainCard.style.display = "block";
-    if (busCard)   busCard.style.display = "block";
-    if (vlCard)    vlCard.style.display = "block";
-    if (plCard)    plCard.style.display = "block";
+  target.textContent = phrase;
+})();
+
+// === Langue parlée et relevé d'identité ===
+(() => {
+  const langueSelect = document.getElementById('esi_langue');
+  const pieceInput = document.getElementById('piece_id');
+  const langueSpan = document.getElementById('langue_phrase_o');
+  const identiteSpan = document.getElementById('identite_phrase_o');
+
+  if (!langueSelect || !langueSpan || !identiteSpan) {
+    console.warn("⚠️ Élément manquant pour la langue ou l'identité.");
+    return;
   }
-}
 
-// appeler au chargement
-filtrerCompteurs();
-// ---- Gestion Site choisi ----
-function selectSite(site) {
-  localStorage.setItem("siteSelection", site);
-  displaySelectedSite();
-   filtrerCompteurs(); // applique le filtre immédiatement
-}
+  const langue = langueSelect.value;
+  const pieceTxt = pieceInput ? pieceInput.value.trim() : '';
 
-function displaySelectedSite() {
-  const site = localStorage.getItem("siteSelection");
-  const display = document.getElementById("selectedSiteDisplay");
-  if (display) {
-    display.textContent = site ? "📍 Site choisi : " + site : "📍 Aucun site choisi";
+  // Phrase sur la langue
+  let languePhrase = '';
+  if (langue === 'fr_ok') {
+    languePhrase = "L’individu parle français.";
+  } else if (langue === 'fr_approx') {
+    languePhrase = "L’individu s’exprime en français approximatif.";
+  } else if (langue === 'npf') {
+    languePhrase = "L’individu ne parle pas français.";
   }
+
+  // Phrase sur le relevé d'identité
+  let identitePhrase = '';
+  if (pieceTxt) {
+    identitePhrase = "Son identité est relevée sur les pièces précitées.";
+  } else {
+    identitePhrase = "Son identité est relevée sur sa déclaration verbale.";
+  }
+
+  // Injection dans le PV
+  langueSpan.textContent = languePhrase;
+  identiteSpan.textContent = identitePhrase;
+})();
+
+// Accord pour "étranger / étrangère"
+(() => {
+  const target = document.getElementById('esi_etranger_phrase_o');
+  if (!target) return;
+  target.textContent = esi_sexe === 'f' ? "d’une étrangère" : "d’un étranger";
+})();
+
+
+  /*  // Affiche la feuille
+    document.getElementById('sheet').style.display='grid';
+    // Scroll vers la feuille pour aperçu
+    document.getElementById('sheet').scrollIntoView({behavior:'smooth',block:'start'});
+  }*/
+  const sheet = document.getElementById('sheet');
+if (sheet) {
+  sheet.style.display = 'grid';
+  sheet.style.margin = '30px auto';
+  sheet.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-// Afficher au chargement
-document.addEventListener("DOMContentLoaded", displaySelectedSite);
+// ✅ Affiche les boutons liés à l’affichage du PV
+const closeBtn = document.getElementById("closePVBtn");
+if (closeBtn) closeBtn.style.display = "inline-block";
+
+const scrollBtn = document.getElementById("scrollTopBtn");
+if (scrollBtn) scrollBtn.style.display = "block";
+
+majPalpation();
+}
+
+ function openPrintPreview() {
+  generatePV();
+
+  setTimeout(() => {
+    const sheet = document.getElementById('sheet');
+    if (!sheet) {
+      alert("⚠️ Impossible de trouver le contenu du PV.");
+      return;
+    }
+
+    // 🪟 Ouvre une nouvelle fenêtre pour l'impression
+    const printWindow = window.open('', '_blank', 'width=900,height=1000');
+    printWindow.document.write(`
+      <html>
+      <head>
+        <title>Procès-verbal</title>
+        <style>
+          @page {
+            size: A4;
+            margin: 10mm 10mm 20mm 10mm;
+          }
+		  @page :first {
+  margin-top: 20mm;
+  margin-bottom: 20mm;
+}
+@page :not(:first) {
+  margin-top: 15mm;
+  margin-bottom: 15mm;
+}
+          body {
+            margin: 0;
+            padding: 0;
+            background: white;
+            color: black;
+            font-family: "Times New Roman", serif;
+          }
+          #sheet {
+            width: 210mm;
+            height: 297mm;
+            display: grid;
+            grid-template-columns: 58mm 1fr;
+            gap: 8mm;
+            padding: 10mm 10mm 10mm 10mm;
+            margin: auto;
+            box-sizing: border-box;
+          }
+          #sheet .col-g {
+            border-right: 1px solid #aaa;
+            padding-right: 5mm;
+          }
+          #sheet .col-d {
+            padding-left: 4mm;
+            text-align: justify;
+            line-height: 1.42;
+          }
+
+          .logo {
+            width: 60mm;
+            margin: 0 0 8mm 0;
+          }
+          .title-left { font-weight: bold; }
+          .num-pv { margin-top: 8mm; font-style: italic; }
+         /* .signzone {
+            margin-top: 16mm;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+          }
+          .signcell {
+            min-height: 28mm;
+            border-top: 1px solid #aaa;
+            padding-top: 4mm;
+          } */
+		  
+		  /* 🖋️ Zone des signatures */
+.signzone {
+  margin-top: 16mm;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* deux colonnes */
+  gap: 20mm; /* ⬅️ espace horizontal entre les deux signatures */
+  width: 90%; /* pour recentrer un peu la zone */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.signcell {
+  min-height: 28mm;
+  border-top: 1px solid #000;
+  padding-top: 4mm;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.95em;
+}
+          @media print {
+            body {
+              margin: 0;
+            }
+            #sheet {
+              display: grid !important;
+              position: static;
+              margin: 0 auto;
+            }
+          }
+		  #sign_col_g {
+  letter-spacing: 1px;
+  word-spacing: 20px;
+}
+        </style>
+      </head>
+      <body>
+        ${sheet.outerHTML}
+      </body>
+      </html>
+    `);
+
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.onload = () => printWindow.print();
+  }, 600);
+}
+
+// === 💾 SAUVEGARDE AUTOMATIQUE AVEC DEBOUNCE (inclut les assistants dynamiques) ===
+let saveTimeout;
+
+// Fonction principale de sauvegarde
+function savePV() {
+  const data = {};
+
+  // Champs fixes
+  const champsFixes = [
+    'esr_grade','esr_nom','esr_prenom','esr_sexe','esr_qualite','esr_affect',
+    'pv_num','mission_lieu','mission_hdeb','mission_hfin',
+    'date_lettres','heure_lettres','esi_hconstat','veh_type','veh_marque',
+    'veh_immat','veh_pays','conducteur_genre','lieu_controle','piece_id',
+    'esi_nom','esi_prenom','esi_sexe','esi_dnaiss','esi_lnaiss','esi_nat',
+    'esi_langue','fpr','agdref','fichiers_nat','palp_genre','objets_trouves','transport_type',
+    'paf_ville','paf_heure'
+  ];
+
+  champsFixes.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) data[id] = el.value;
+  });
+ // ✅ Ajout des champs PIÉTON (issus du texte généré)
+  const heurePieton = document.getElementById('heure_pieton_o')?.textContent || '';
+  const lieuPieton  = document.getElementById('lieu_pieton_o')?.textContent || '';
+  const pieceType   = document.getElementById('piece_type_o')?.textContent || '';
+   data.heure_pieton = heurePieton;
+  data.lieu_pieton  = lieuPieton;
+  data.piece_type   = pieceType;
+  
+  // Champs dynamiques (assistants)
+  const assistants = [];
+  document.querySelectorAll('#assist_list > div').forEach((div, index) => {
+    const a = {
+      grade: div.querySelector(`[id^="a_grade_"]`)?.value || '',
+      nom: div.querySelector(`[id^="a_nom_"]`)?.value || '',
+      prenom: div.querySelector(`[id^="a_prenom_"]`)?.value || '',
+      qualite: div.querySelector(`[id^="a_qual_"]`)?.value || '',
+      affect: div.querySelector(`[id^="a_affect_"]`)?.value || ''
+    };
+    assistants.push(a);
+  });
+  data.assistants = assistants;
+
+  // Sauvegarde dans le localStorage
+  localStorage.setItem('pv_interpellation_data', JSON.stringify(data));
+  console.log("✅ PV sauvegardé automatiquement");
+}
+
+// Fonction debounce (attend 3 secondes après la dernière saisie)
+function debounceSave() {
+  clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(savePV, 3000);
+}
+
+// Attache l’écouteur à tous les champs existants
+function attachListeners() {
+  document.querySelectorAll('input, select, textarea').forEach(el => {
+    el.removeEventListener('input', debounceSave);
+    el.addEventListener('input', debounceSave);
+  });
+}
+attachListeners();
+
+// === RECHARGEMENT AUTOMATIQUE DES DONNÉES ===
+window.addEventListener('load', () => {
+  const saved = localStorage.getItem('pv_interpellation_data');
+  if (!saved) return;
+  try {
+    const data = JSON.parse(saved);
+
+    // Champs fixes
+    Object.keys(data).forEach(id => {
+      const el = document.getElementById(id);
+      if (el && typeof data[id] === 'string') el.value = data[id];
+    });
+
+    // Assistants dynamiques
+    if (Array.isArray(data.assistants) && data.assistants.length > 0) {
+      document.getElementById('assist_list').innerHTML = ''; // Nettoyage avant recharge
+      assistIndex = 0;
+      data.assistants.forEach(a => {
+        addAssistant();
+        const div = document.querySelector(`#assist_list > div:last-child`);
+        div.querySelector(`[id^="a_grade_"]`).value = a.grade;
+        div.querySelector(`[id^="a_nom_"]`).value = a.nom;
+        div.querySelector(`[id^="a_prenom_"]`).value = a.prenom;
+        div.querySelector(`[id^="a_qual_"]`).value = a.qualite;
+        div.querySelector(`[id^="a_affect_"]`).value = a.affect;
+      });
+    }
+	// ✅ Restauration des champs piéton s’ils existent
+if (data.heure_pieton && document.getElementById('heure_pieton_o')) {
+  document.getElementById('heure_pieton_o').textContent = data.heure_pieton;
+}
+if (data.lieu_pieton && document.getElementById('lieu_pieton_o')) {
+  document.getElementById('lieu_pieton_o').textContent = data.lieu_pieton;
+}
+if (data.piece_type && document.getElementById('piece_type_o')) {
+  document.getElementById('piece_type_o').textContent = data.piece_type;
+}
+
+// ✅ Recalcule affichage piéton si sélectionné
+if (typeof majAffichageType === "function") majAffichageType();
+if (typeof majTextePieton === "function") majTextePieton();
+
+   console.log("♻️ PV restauré avec les assistants sauvegardés");
+
+  } catch(e) {
+    console.error('Erreur chargement PV sauvegardé', e);
+	
+  }
+});
+
+// === GESTION MULTI-PV ===
+let pvCourantId = null; // identifiant du PV en cours d'édition
+
+// 🔹 Sauvegarde manuelle (version compatible sandbox + notification)
+function sauvegarderPV() {
+  const data = {};
+  document.querySelectorAll('input, select, textarea').forEach(el => {
+    if (el.id) data[el.id] = el.value;
+  });
+
+  const nomESI = (document.getElementById('esi_nom')?.value || "Inconnu").trim();
+  const dateMission = (document.getElementById('date_lettres')?.value || "Date ?").trim();
+
+  let list = JSON.parse(localStorage.getItem('pv_list') || "[]");
+  let id = pvCourantId || Date.now();
+
+  const index = list.findIndex(pv => String(pv.id) === String(id));
+  const newPV = { id, nomESI, dateMission, data };
+
+  if (index >= 0) {
+    list[index] = newPV;
+    showToast("🔄 PV mis à jour");
+  } else {
+    list.push(newPV);
+    showToast("✅ PV sauvegardé");
+  }
+
+  pvCourantId = id;
+  localStorage.setItem('pv_list', JSON.stringify(list));
+}
+
+
+
+// 🔹 Affichage de la page "Mes PV"
+function ouvrirMesPV() {
+  const listePV = document.getElementById('listePV');
+  const contenu = document.getElementById('listePVcontenu');
+  const sheet = document.getElementById('sheet');
+
+  if (!listePV || !contenu) {
+    alert("Erreur : la zone listePV n'existe pas.");
+    return;
+  }
+
+  // Masque le PV
+  if (sheet) sheet.style.display = 'none';
+
+  // Vide et recharge la liste
+  contenu.innerHTML = '';
+
+  // Récupère les PV enregistrés
+  const pvList = JSON.parse(localStorage.getItem('pv_list') || '[]');
+
+  if (pvList.length === 0) {
+    contenu.innerHTML = "<p>Aucun PV sauvegardé.</p>";
+  } else {
+    pvList.forEach((pv, i) => {
+      const div = document.createElement('div');
+      div.style.borderBottom = "1px solid #ccc";
+      div.style.padding = "8px 0";
+     div.innerHTML = `
+  <strong>${pv.nomESI || 'Sans nom'}</strong><br>
+  <small>${pv.dateMission || ''}</small><br>
+  <button onclick="chargerPV(${pv.id})">✏️ Modifier</button>
+  <button onclick="supprimerPV(${pv.id})" style="color:red;">🗑️ Supprimer</button>
+`;
+
+      contenu.appendChild(div);
+    });
+  }
+
+  listePV.style.display = 'block';
+}
+
+function fermerMesPV() {
+  const listePV = document.getElementById('listePV');
+  const sheet = document.getElementById('sheet');
+  const closeBtn = document.getElementById('closePVBtn'); // ✅ ton bouton Fermer
+
+  // 🔹 On cache la liste des PV
+  if (listePV) listePV.style.display = 'none';
+
+  // 🔹 On réaffiche le PV avec sa mise en page d’origine
+  if (sheet) {
+    sheet.style.display = 'grid'; // ✅ garde la mise en forme correcte
+    sheet.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // 🔹 On rend visible le bouton Fermer
+  if (closeBtn) closeBtn.style.display = 'inline-block';
+  const scrollBtn = document.getElementById("scrollTopBtn");
+if (scrollBtn) scrollBtn.style.display = "block"; // ✅ réaffiche quand retour PV
+}
+
+function chargerPV(id) {
+  const list = JSON.parse(localStorage.getItem('pv_list') || "[]");
+
+  // 🔍 on compare en string pour être sûr (évite les bugs number/string)
+  const pv = list.find(p => String(p.id) === String(id));
+
+  if (!pv) {
+    showToast("PV introuvable");
+    return;
+  }
+
+  // ♻️ Réinjecte toutes les données dans les champs
+  if (pv.data && typeof pv.data === 'object') {
+    Object.keys(pv.data).forEach(k => {
+      const el = document.getElementById(k);
+      if (el) el.value = pv.data[k];
+    });
+  }
+
+  // 🆔 On mémorise l'ID du PV chargé pour le prochain sauvegarderPV()
+  pvCourantId = pv.id;
+
+  // 🔙 On ferme la liste et revient sur le PV
+  fermerMesPV();
+
+  // ✅ Petit message non bloquant
+  showToast("PV chargé");
+
+  // 🔼 Remonte en haut + régénère le PV avec les nouvelles valeurs
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  generatePV();
+}
+
+
+function supprimerPV(id) {
+  // En sandbox, confirm() est bloqué → on supprime directement
+  let list = JSON.parse(localStorage.getItem('pv_list') || "[]");
+
+  list = list.filter(pv => String(pv.id) !== String(id));
+
+  localStorage.setItem('pv_list', JSON.stringify(list));
+  ouvrirMesPV();
+  showToast("PV supprimé");
+}
+
+function nouveauPV() {
+  // On repart sur un NOUVEAU PV
+  if (typeof pvCourantId !== 'undefined') {
+    pvCourantId = null;
+  }
+
+  // Champs à préserver (ESR / rédacteur + n° PV)
+  const preserve = new Set([
+    'esr_grade',
+    'esr_nom',
+    'esr_prenom',
+    'esr_sexe',
+    'esr_qualite',
+    'esr_affect',
+    'pv_num'
+  ]);
+
+  // Efface tous les champs sauf ceux du rédacteur
+  document.querySelectorAll('input, select, textarea').forEach(el => {
+    if (!el.id) return;
+    if (preserve.has(el.id)) return;
+
+    if (el.tagName === 'SELECT') {
+      el.selectedIndex = 0;
+    } else {
+      el.value = '';
+    }
+  });
+
+  // Réinitialise les assistants : 1 bloc propre
+  const assistList = document.getElementById('assist_list');
+  if (assistList) {
+    assistList.innerHTML = '';
+  }
+  if (typeof assistIndex !== 'undefined') {
+    assistIndex = 0;
+  }
+  if (typeof addAssistant === 'function') {
+    addAssistant();
+  }
+
+  // Cache la liste "Mes PV" si ouverte
+  const listePV = document.getElementById('listePV');
+  if (listePV) {
+    listePV.style.display = 'none';
+  }
+
+  // Cache la feuille PV générée
+  const sheet = document.getElementById('sheet');
+  if (sheet) {
+    sheet.style.display = 'none';
+  }
+
+  // Nettoie le brouillon auto-sauvegardé
+  localStorage.removeItem('pv_interpellation_data');
+
+  // Indication visuelle (au lieu de alert, compatible sandbox)
+  if (typeof showToast === 'function') {
+    showToast("Nouveau PV vierge prêt");
+  }
+
+  // Remonte en haut
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+ 
+</script>
+
+<script>
+// === Texte piéton neutre et complet (avec identification automatique) ===
+(function(){
+  function majTextePieton(){
+    const veh = (document.getElementById("veh_type")?.value || "").toLowerCase();
+    if (veh !== "personne") return; // uniquement si piéton
+
+    // Champs du formulaire
+    const heure = document.getElementById("esi_hconstat")?.value || "[heure de constatation]";
+    const lieu  = document.getElementById("lieu_controle")?.value || "[lieu du contrôle]";
+    const piece = (document.getElementById("piece_id")?.value ?? "").trim();
+
+    const nom    = document.getElementById("esi_nom")?.value || "[NOM]";
+    const prenom = document.getElementById("esi_prenom")?.value || "[Prénom]";
+    const naissance = document.getElementById("esi_dnaiss")?.value || "[date de naissance]";
+    const lieuNais  = document.getElementById("esi_lnaiss")?.value || "[lieu de naissance]";
+    const nationalite = document.getElementById("esi_nat")?.value || "[nationalité]";
+    const sexe = (document.getElementById("esi_sexe")?.value || "").toLowerCase();
+
+    // Récupération des zones de texte dans le PV
+    const spanHeure = document.getElementById("heure_pieton_o");
+    const spanLieu  = document.getElementById("lieu_pieton_o");
+    const phrasePiece = document.getElementById("piece_pieton_o");
+    const pieceSpan = document.getElementById("piece_type_o");
+    const identiteBloc = document.getElementById("identite_pieton_o");
+    const sourceIdentite = document.getElementById("source_identite_o");
+
+    // Remplissage heure/lieu
+    if (spanHeure) spanHeure.textContent = heure;
+    if (spanLieu)  spanLieu.textContent  = lieu;
+
+    // Accord de "L'intéressé(e)"
+    const interesse = (sexe === "f") ? "L’intéressée" : "L’intéressé";
+
+    // Phrase sur la pièce d'identité
+    if (phrasePiece) {
+      if (piece) {
+        phrasePiece.innerHTML =
+          "— " + interesse + " obtempère et est en mesure de nous présenter un document de type : " +
+          "<span id=\"piece_type_o\">" + piece + "</span>. —";
+      } else {
+        phrasePiece.innerHTML =
+          "— " + interesse + " n’est pas en mesure de nous présenter de document permettant de justifier de son identité. —";
+      }
+    }
+
+    // Bloc identité piéton
+    if (identiteBloc) {
+      identiteBloc.innerHTML =
+        "— " + (sexe === "f" ? "Madame " : "Monsieur ") + nom + " " + prenom +
+        " né" + (sexe === "f" ? "e" : "") + " le " + naissance +
+        ", à " + lieuNais +
+        ", de nationalité " + nationalite +
+        ", de sexe " + (sexe === "f" ? "féminin" : "masculin") +
+        ". L’individu parle français. <span id='source_identite_o'>" +
+        (piece ? "Son identité est relevée sur les pièces précitées." : "selon sa déclaration verbale.") +
+        "</span> —";
+    }
+  }
+
+  // Mets à jour à chaque changement des champs
+  document.addEventListener("change", (e)=>{
+    if([
+      "veh_type","esi_hconstat","lieu_controle","piece_id",
+      "esi_nom","esi_prenom","esi_dnaiss","esi_lnaiss","esi_nat","esi_sexe"
+    ].includes(e.target.id)){
+      majTextePieton();
+    }
+  });
+
+  document.addEventListener("DOMContentLoaded", majTextePieton);
+})();
 
 </script>
 <script>
-function confirmCallCORG() {
-  const popup = document.getElementById('popupCORG');
-  const callBtn = document.getElementById('popupCallBtn');
-  const cancelBtn = document.getElementById('popupCancelBtn');
+(function () {
+  function majAffichageType() {
+    const veh = document.getElementById("texte-vehicule");
+    const pie = document.getElementById("texte-pieton");
+    const sel = document.getElementById("veh_type");
 
-  popup.style.display = 'flex';
+    if (!sel || !veh || !pie) {
+      console.warn("Bascule: élément manquant",
+        { sel: !!sel, veh: !!veh, pie: !!pie });
+      return;
+    }
 
-  callBtn.onclick = () => {
-    popup.style.display = 'none';
-    window.location.href = 'tel:0493182361';
+    const v = (sel.value || "").toLowerCase();
+    // bascule affichage
+    if (v === "personne") {
+      veh.style.display = "none";
+      pie.style.display = "block";
+    } else {
+      veh.style.display = "block";
+      pie.style.display = "none";
+    }
+  }
+
+  function bindBascule() {
+    const sel = document.getElementById("veh_type");
+    if (sel && !sel._pietonBound) {
+      sel.addEventListener("change", majAffichageType);
+      sel._pietonBound = true;
+    }
+    // applique l'état actuel (utile au rechargement)
+    majAffichageType();
+  }
+
+  // 1) Quand le DOM est prêt
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bindBascule);
+  } else {
+    bindBascule();
+  }
+
+  // 2) Après ta génération PV (si elle existe), on réapplique la bascule
+  if (typeof window.generatePV === "function" && !window._wrapGenPV_forPieton) {
+    const orig = window.generatePV;
+    window.generatePV = function () {
+      const out = orig.apply(this, arguments);
+      try { majAffichageType(); } catch (e) {}
+      return out;
+    };
+    window._wrapGenPV_forPieton = true;
+  }
+})();
+</script>
+<script>
+// === MISE À JOUR DES SIGNATURES ET TITRES SELON QUALITÉ ET NOMBRE D’ASSISTANTS ===
+function majSignaturesEtTitres() {
+  const qualite = (document.getElementById("esr_qualite")?.value || "").trim();
+  const assistants = document.querySelectorAll('#assist_list > div').length;
+
+  // === COLONNE DE GAUCHE ===
+  const colonneGauche = document.getElementById("sign_col_g");
+  if (colonneGauche) {
+    // Texte qualité abrégée (haut du PV)
+    let qualiteCourte = "Le rédacteur";
+    if (qualite.match(/opj/i)) qualiteCourte = "L’OPJ";
+    else if (qualite.match(/apja/i)) qualiteCourte = "L’APJA";
+    else if (qualite.match(/apj/i)) qualiteCourte = "L’APJ";
+
+    // Texte assistants
+    const assistantsTexte = assistants > 1 ? "Les assistants" : "L’assistant";
+
+    // Injection
+    colonneGauche.textContent = `${qualiteCourte}               ${assistantsTexte}`;
+  }
+
+  // === SIGNATURE EN BAS ===
+  const celluleRedacteur = document.querySelector('.signzone .signcell:first-child');
+  const celluleAssistants = document.querySelector('.signzone .signcell:last-child');
+
+  if (celluleRedacteur) {
+    // Texte complet de la qualité pour signature
+    let qualiteLongue = "Le rédacteur";
+    if (qualite.match(/opj/i)) qualiteLongue = "L’Officier de Police Judiciaire";
+    else if (qualite.match(/apja/i)) qualiteLongue = "L’Agent de Police Judiciaire Adjoint";
+    else if (qualite.match(/apj/i)) qualiteLongue = "L’Agent de Police Judiciaire";
+
+    celluleRedacteur.textContent = qualiteLongue;
+  }
+
+  if (celluleAssistants) {
+    const assistantsTexte = assistants > 1 ? "Les assistants" : "L’assistant";
+    celluleAssistants.textContent = assistantsTexte;
+  }
+}
+
+// Exécution automatique à chaque changement de qualité ou d’assistants
+document.addEventListener("input", e => {
+  if (["esr_qualite"].includes(e.target.id)) majSignaturesEtTitres();
+});
+document.addEventListener("click", e => {
+  if (e.target.matches(".btn-add-assistant, .btn-remove-assistant")) {
+    setTimeout(majSignaturesEtTitres, 100);
+  }
+});
+
+// Exécution au chargement et à chaque génération de PV
+window.addEventListener("load", majSignaturesEtTitres);
+if (typeof generatePV === "function" && !window._signaturesBound) {
+  const orig = generatePV;
+  window.generatePV = function () {
+    const out = orig.apply(this, arguments);
+    try { majSignaturesEtTitres(); } catch(e) {}
+    return out;
   };
+  window._signaturesBound = true;
+}
 
-  cancelBtn.onclick = () => {
-    popup.style.display = 'none';
-  };
+</script>
+<script>
+document.getElementById('sendMailBtn').addEventListener('click', () => {
+  // 🔹 Récupération des infos du PV
+  const nomESI = document.getElementById('esi_nom')?.value.trim() || "ESI";
+  const date = document.getElementById('date_lettres')?.value.trim() || "Date";
+
+  // 🔹 Récupération des infos du rédacteur
+  const grade = document.getElementById('esr_grade')?.value.trim() || "";
+  const nomRedacteur = document.getElementById('esr_nom')?.value.trim().toUpperCase() || "";
+  const prenom = document.getElementById('esr_prenom')?.value.trim() || "";
+  const affect = document.getElementById('esr_affect')?.value.trim() || "";
+
+  // 🔹 Adresse mail laissée vide (utilisateur choisit le destinataire)
+  const destinataire = "";
+
+  // 🔹 Création de la signature formatée
+  let signature = "Cordialement,\n\n";
+  if (grade || nomRedacteur) {
+    signature += `${grade} ${nomRedacteur}`;
+    if (prenom) signature += ` ${prenom}`;
+    signature += "\n";
+  }
+  if (affect) signature += `${affect}\n`;
+  signature += "Border Force 06\n";
+
+  // 🔹 Objet et corps du message
+  const subject = encodeURIComponent(`Transmission du PV - ${nomESI} (${date})`);
+  const body = encodeURIComponent(
+    "Bonjour,\n\n" +
+    "Veuillez trouver ci-joint le procès-verbal généré et enregistré depuis l’application Border Force / App PV.\n\n" +
+    "📎 Sélectionnez le fichier PDF que vous avez enregistré précédemment (dans le dossier Téléchargements ou Documents de votre appareil).\n\n" +
+    signature
+  );
+
+  // 🔹 Ouvre la messagerie avec les champs préremplis
+  window.location.href = `mailto:${destinataire}?subject=${subject}&body=${body}`;
+});
+</script>
+<script>
+// === Menu déroulant Options ===
+document.getElementById('toggleOptions').addEventListener('click', () => {
+  const menu = document.getElementById('optionsMenu');
+  menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'flex' : 'none';
+});
+</script>
+<script>
+function majPalpation() {
+  const zonePalp = document.getElementById("palpation_text");
+  const zoneConf = document.getElementById("conf_paf_text");
+  if (!zonePalp) return;
+
+  const palpGenre = (document.getElementById("palp_genre")?.value || "").toLowerCase();
+  const esiSexe   = (document.getElementById("esi_sexe")?.value || "").toLowerCase();
+  const objets    = (document.getElementById("objets_trouves")?.value || "").trim();
+
+  let texte = "";
+  let texteConf = "";
+
+  if (palpGenre === "impossible") {
+    texte = "La palpation de sécurité n’a pas pu être réalisée sur place à défaut de personnel du même sexe.";
+  } 
+  else if (palpGenre === "m" || palpGenre === "f") {
+    const personnel = palpGenre === "m" ? "personnel masculin" : "personnel féminin";
+
+    // Gestion sécurisée du genre de l’ESI
+    let debut, pronom, e, porteur;
+    if (esiSexe.startsWith("f")) {
+      debut = "Palpée";
+      pronom = "elle";
+      e = "e";
+      porteur = "porteuse";
+    } else if (esiSexe.startsWith("m")) {
+      debut = "Palpé";
+      pronom = "il";
+      e = "";
+      porteur = "porteur";
+    } else {
+      // Cas neutre (si sexe non renseigné) 
+      debut = "Palpé(e)";
+      pronom = "la personne";
+      e = "";
+      porteur = "porteuse/porteur";
+    }
+
+    if (!objets) {
+      texte = `${debut} par mesure de sécurité, par un ${personnel}, ${pronom} n’est trouvé${e} ${porteur} d’aucun objet dangereux pour autrui ou pour ${pronom === "elle" ? "elle-même" : pronom === "il" ? "lui-même" : "elle/lui-même"}.`;
+    } 
+    else {
+      const liste = objets.split(/[,;]+/).map(x => x.trim()).filter(Boolean);
+      const pluriel = liste.length > 1;
+      const objetsTxt = liste.join(", ");
+      const motObjet = pluriel ? "objets" : "objet";
+      const suivants = pluriel ? "suivants" : "suivant";
+      const deDes = pluriel ? "des" : "de l’";
+      const ceCes = pluriel ? "Ces" : "Cet";
+      const ont = pluriel ? "sont" : "est";
+      const confisques = pluriel ? "confisqués" : "confisqué";
+      const confies = pluriel ? "confiés" : "confié";
+      const lesOuL = pluriel ? "Les" : "L’";
+
+      // Phrase principale
+      texte = `${debut} par mesure de sécurité, par un ${personnel}, ${pronom} est trouvé${e} ${porteur} ${deDes} ${motObjet} ${suivants} : ${objetsTxt}. `
+            + `${ceCes} ${motObjet} ${ont} ${confisques} pendant le transport.`;
+
+      // Phrase finale déplacée à la fin du PV
+      texteConf = `— ${lesOuL} ${motObjet} ${confisques} ${ont} ${confies} au personnel de la Police aux Frontières. — `;
+    }
+  }
+
+  zonePalp.textContent = texte;
+  if (zoneConf) zoneConf.textContent = texteConf;
+}
+
+
+</script>
+<script>
+function formatDateNaissance(input) {
+  let v = input.value.replace(/\D/g, ""); // supprime tout sauf les chiffres
+  if (v.length >= 5) {
+    input.value = v.slice(0, 2) + "/" + v.slice(2, 4) + "/" + v.slice(4, 8);
+  } else if (v.length >= 3) {
+    input.value = v.slice(0, 2) + "/" + v.slice(2, 4);
+  } else {
+    input.value = v;
+  }
 }
 </script>
+<script>
+// Fonction pour remonter en haut de la page
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'  // 👈 défilement fluide
+  });
+}
+
+// Détecte le clic sur le bouton
+document.getElementById("scrollTopBtn").addEventListener("click", scrollToTop);
+</script>
+<script>
+function fermerPV() {
+  const sheet = document.getElementById("sheet");
+  if (sheet) sheet.style.display = "none";
+
+  const closeBtn = document.getElementById("closePVBtn");
+  if (closeBtn) closeBtn.style.display = "none";
+  
+   const scrollBtn = document.getElementById("scrollTopBtn");
+  if (scrollBtn) scrollBtn.style.display = "none"; // 👈 cache le bouton quand on ferme le PV
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+</script>
+<script>
+function showToast(message) {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = message;
+  t.style.display = 'block';
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(() => {
+    t.style.display = 'none';
+  }, 1500);
+}
+</script>
+
+
+
+<div id="toast"></div>
 </body>
 </html>
-
