@@ -421,7 +421,21 @@ fieldset textarea {
 #btn-retour:hover {
   background: #0070cc;
 }
+/* ÉCRAN : tous les champs dynamiques (_o) en bleu */
+@media screen {
+  #sheet [id$="_o"] {
+    color: #0055cc !important;
+    font-weight: 600 !important;
+  }
+}
 
+/* IMPRESSION / PDF : tout redevient noir */
+@media print {
+  #sheet [id$="_o"] {
+    color: #000 !important;
+    font-weight: normal !important;
+  }
+}
 </style>
 </head>
 
