@@ -574,6 +574,19 @@ span[id$="Count"] {
   from { transform: scale(0.9); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
+/* À l'écran : tous les champs dynamiques du PV en bleu */
+#sheet span[id$="_o"] {
+  color: #0055cc;
+  font-weight: 600;
+}
+
+/* À l'impression / PDF : tout repasse en noir normal */
+@media print {
+  #sheet span[id$="_o"] {
+    color: #000 !important;
+    font-weight: normal !important;
+  }
+}
 </style>
 </head>
 <body>
