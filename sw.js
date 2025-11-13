@@ -7,7 +7,7 @@ const urlsToCache = [
   "./icon-192.png",
   "./icon-512.png",
   "./libs/qrcode.min.js",
-  "./docs/DOC PAF.pdf"
+  "./docs/DOC_PAF.pdf"
 ];
   
 
@@ -45,6 +45,7 @@ self.addEventListener("fetch", event => {
     })
   );
 });
+
 
 
 
