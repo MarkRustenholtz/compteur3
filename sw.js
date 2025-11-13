@@ -6,7 +6,8 @@ const urlsToCache = [
   "./manifest.json",
   "./icon-192.png",
   "./icon-512.png",
-  "./libs/qrcode.min.js"
+  "./libs/qrcode.min.js",
+  "./docs/DOC PAF.pdf"
 ];
   
 
@@ -44,6 +45,7 @@ self.addEventListener("fetch", event => {
     })
   );
 });
+
 
 
 
