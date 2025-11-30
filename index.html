@@ -1454,15 +1454,21 @@ function genererQrFiche(index) {
     return;
   }
 
-  // Version ultra-compacte avec seulement les données essentielles demandées
-  const payloadCompact = {
-    dn: fiche.dateNaissance,
-    nat: fiche.nationalite,
-    sexe: fiche.sexe,
-    heure: fiche.heure,
-    lieu: fiche.lieuInterpellation,
-    suites: fiche.suitesDonnees || ""
-  };
+  // Fonction pour tronquer les textes longs
+  function truncate(text, maxLen) {
+    if (!text) return "";
+    return text.length > maxLen ? text.substring(0, maxLen) + "..." : text;
+  }
+
+  // Format texte ultra-compact avec troncature
+  const dataCompact = [
+    "DN:" + (fiche.dateNaissance || ""),
+    "NAT:" + truncate(fiche.nationalite, 20),
+    "SEX:" + (fiche.sexe ? fiche.sexe.charAt(0) : ""), // Juste M/F/A
+    "H:" + (fiche.heure || ""),
+    "LIEU:" + truncate(fiche.lieuInterpellation, 50),
+    "SUIT:" + truncate(fiche.suitesDonnees, 80)
+  ].join("|");
 
   const container = document.getElementById('qrFicheContainer');
   if (!container) {
@@ -1486,6 +1492,23 @@ function genererQrFiche(index) {
   info.style.marginBottom = "15px";
   container.appendChild(info);
 
+  // Afficher la taille des données
+  const sizeInfo = document.createElement("p");
+  sizeInfo.textContent = `Taille: ${dataCompact.length} caractères`;
+  sizeInfo.style.fontSize = "0.85em";
+  sizeInfo.style.color = dataCompact.length > 200 ? "#e67e22" : "#27ae60";
+  sizeInfo.style.fontWeight = "bold";
+  container.appendChild(sizeInfo);
+
+  // Avertissement si données tronquées
+  if (fiche.lieuInterpellation?.length > 50 || fiche.suitesDonnees?.length > 80) {
+    const warning = document.createElement("p");
+    warning.textContent = "⚠️ Textes tronqués pour tenir dans le QR";
+    warning.style.fontSize = "0.85em";
+    warning.style.color = "#e67e22";
+    container.appendChild(warning);
+  }
+
   // Div dédiée au QR avec un ID unique
   const qrBox = document.createElement("div");
   const qrId = 'qr-fiche-' + index + '-' + Date.now();
@@ -1503,30 +1526,30 @@ function genererQrFiche(index) {
         return;
       }
       
-      const dataString = JSON.stringify(payloadCompact);
-      
       const qrcode = new QRCode(document.getElementById(qrId), {
-        text: dataString,
-        width: 300,
-        height: 300,
+        text: dataCompact,
+        width: 280,
+        height: 280,
         colorDark: "#000000",
         colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.M  // Niveau moyen de correction
+        correctLevel: QRCode.CorrectLevel.L  // Niveau le plus bas pour capacité maximale
       });
+      
+      // Message de succès
+      const success = document.createElement("p");
+      success.textContent = "✅ QR code généré avec succès";
+      success.style.color = "#27ae60";
+      success.style.fontWeight = "bold";
+      success.style.marginTop = "10px";
+      container.appendChild(success);
       
     } catch(error) {
       console.error("Erreur génération QR:", error);
-      container.innerHTML += "<p style='color:red;'>❌ Erreur : " + error.message + "</p>";
+      container.innerHTML += `<p style='color:red;'>❌ Erreur : ${error.message}</p>`;
+      container.innerHTML += `<p style='color:#666; font-size:0.9em;'>Lieu: ${fiche.lieuInterpellation?.length || 0} car. | Suites: ${fiche.suitesDonnees?.length || 0} car.</p>`;
     }
   }, 100);
 }
-document.getElementById('effacerFiches').addEventListener('click', function() {
-    if (confirm("Voulez-vous vraiment effacer toutes les fiches ?")) {
-        localStorage.removeItem('fichesESI');
-        afficherHistorique();
-        alert("Toutes les fiches ont été effacées !");
-    }
-});
 
 afficherHistorique();
 /* ---------- BLOC JS COMPLET POUR ESI+VISA (195 pays) ---------- */
