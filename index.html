@@ -1454,26 +1454,32 @@ function genererQrFiche(index) {
         return;
     }
 
-    // ✅ Structure standard pour BorderForce
+    // Objet envoyé à BorderForce
     const payload = {
         qrType: "IDENTITE",
         fiche: fiche
     };
 
     const qrDiv = document.getElementById('qrFicheContainer');
-    if (!qrDiv) return;
+    if (!qrDiv) {
+        alert("Zone QR introuvable (qrFicheContainer).");
+        return;
+    }
 
-    // On efface l'ancien QR
+    // Effacer l'ancien QR
     qrDiv.innerHTML = "";
 
-    // Petit titre explicatif
-    const title = document.createElement("p");
-    title.textContent = `QR Fiche #${index+1} (${fiche.categorie}) à scanner avec BorderForce`;
-    title.style.fontWeight = "bold";
-    qrDiv.appendChild(title);
+    // (optionnel) petit texte au-dessus
+    const p = document.createElement("p");
+    p.textContent = `QR Fiche #${index + 1} (${fiche.categorie}) à scanner avec BorderForce`;
+    p.style.fontWeight = "bold";
+    qrDiv.appendChild(p);
 
-    // Génération du QR (on réutilise qrcode.min.js déjà inclus dans l'app)
-    new QRCode(qrDiv, {
+    // Génération du QR
+    const qrBox = document.createElement("div");
+    qrDiv.appendChild(qrBox);
+
+    new QRCode(qrBox, {
         text: JSON.stringify(payload),
         width: 256,
         height: 256,
