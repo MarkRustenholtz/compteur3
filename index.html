@@ -1447,46 +1447,66 @@ document.getElementById('suitesDonnees').value = fiche.suitesDonnees || '';
     afficherHistorique();
 }
 function genererQrFiche(index) {
-    const fiches = JSON.parse(localStorage.getItem('fichesESI') || '[]');
-    const fiche = fiches[index];
-    if (!fiche) {
-        alert("Fiche introuvable.");
-        return;
+  const fiches = JSON.parse(localStorage.getItem('fichesESI') || '[]');
+  const fiche = fiches[index];
+  if (!fiche) {
+    alert("Fiche introuvable.");
+    return;
+  }
+
+  const payload = {
+    qrType: "IDENTITE",
+    fiche: fiche
+  };
+
+  const container = document.getElementById('qrFicheContainer');
+  if (!container) {
+    alert("Impossible de trouver #qrFicheContainer");
+    return;
+  }
+
+  // Efface l'ancien contenu
+  container.innerHTML = "";
+
+  // Petit titre
+  const titre = document.createElement("h3");
+  titre.textContent = `QR Fiche #${index + 1} (${fiche.categorie})`;
+  titre.style.color = "#003366";
+  titre.style.marginTop = "20px";
+  container.appendChild(titre);
+
+  const info = document.createElement("p");
+  info.textContent = "À scanner avec BorderForce";
+  info.style.fontWeight = "bold";
+  info.style.marginBottom = "15px";
+  container.appendChild(info);
+
+  // Div dédiée au QR
+  const qrBox = document.createElement("div");
+  qrBox.style.display = "flex";
+  qrBox.style.justifyContent = "center";
+  qrBox.style.marginBottom = "20px";
+  container.appendChild(qrBox);
+
+  // Génération du QR avec vérification
+  try {
+    if (typeof QRCode === 'undefined') {
+      alert("Erreur : bibliothèque QRCode non chargée");
+      return;
     }
-
-    // Objet envoyé à BorderForce
-    const payload = {
-        qrType: "IDENTITE",
-        fiche: fiche
-    };
-
-    const qrDiv = document.getElementById('qrFicheContainer');
-    if (!qrDiv) {
-        alert("Zone QR introuvable (qrFicheContainer).");
-        return;
-    }
-
-    // Effacer l'ancien QR
-    qrDiv.innerHTML = "";
-
-    // (optionnel) petit texte au-dessus
-    const p = document.createElement("p");
-    p.textContent = `QR Fiche #${index + 1} (${fiche.categorie}) à scanner avec BorderForce`;
-    p.style.fontWeight = "bold";
-    qrDiv.appendChild(p);
-
-    // Génération du QR
-    const qrBox = document.createElement("div");
-    qrDiv.appendChild(qrBox);
-
+    
     new QRCode(qrBox, {
-        text: JSON.stringify(payload),
-        width: 256,
-        height: 256,
-        colorDark: "#000000",
-        colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.L
+      text: JSON.stringify(payload),
+      width: 256,
+      height: 256,
+      colorDark: "#000000",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.L
     });
+  } catch(error) {
+    console.error("Erreur génération QR:", error);
+    alert("Erreur lors de la génération du QR code");
+  }
 }
 document.getElementById('effacerFiches').addEventListener('click', function() {
     if (confirm("Voulez-vous vraiment effacer toutes les fiches ?")) {
