@@ -1454,9 +1454,14 @@ function genererQrFiche(index) {
     return;
   }
 
-  const payload = {
-    qrType: "IDENTITE",
-    fiche: fiche
+  // Version ultra-compacte avec seulement les données essentielles demandées
+  const payloadCompact = {
+    dn: fiche.dateNaissance,
+    nat: fiche.nationalite,
+    sexe: fiche.sexe,
+    heure: fiche.heure,
+    lieu: fiche.lieuInterpellation,
+    suites: fiche.suitesDonnees || ""
   };
 
   const container = document.getElementById('qrFicheContainer');
@@ -1481,32 +1486,39 @@ function genererQrFiche(index) {
   info.style.marginBottom = "15px";
   container.appendChild(info);
 
-  // Div dédiée au QR
+  // Div dédiée au QR avec un ID unique
   const qrBox = document.createElement("div");
+  const qrId = 'qr-fiche-' + index + '-' + Date.now();
+  qrBox.id = qrId;
   qrBox.style.display = "flex";
   qrBox.style.justifyContent = "center";
   qrBox.style.marginBottom = "20px";
   container.appendChild(qrBox);
 
-  // Génération du QR avec vérification
-  try {
-    if (typeof QRCode === 'undefined') {
-      alert("Erreur : bibliothèque QRCode non chargée");
-      return;
+  // Génération du QR avec vérification et délai
+  setTimeout(() => {
+    try {
+      if (typeof QRCode === 'undefined') {
+        container.innerHTML = "<p style='color:red;'>Erreur : bibliothèque QRCode non chargée</p>";
+        return;
+      }
+      
+      const dataString = JSON.stringify(payloadCompact);
+      
+      const qrcode = new QRCode(document.getElementById(qrId), {
+        text: dataString,
+        width: 300,
+        height: 300,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.M  // Niveau moyen de correction
+      });
+      
+    } catch(error) {
+      console.error("Erreur génération QR:", error);
+      container.innerHTML += "<p style='color:red;'>❌ Erreur : " + error.message + "</p>";
     }
-    
-    new QRCode(qrBox, {
-      text: JSON.stringify(payload),
-      width: 256,
-      height: 256,
-      colorDark: "#000000",
-      colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.L
-    });
-  } catch(error) {
-    console.error("Erreur génération QR:", error);
-    alert("Erreur lors de la génération du QR code");
-  }
+  }, 100);
 }
 document.getElementById('effacerFiches').addEventListener('click', function() {
     if (confirm("Voulez-vous vraiment effacer toutes les fiches ?")) {
