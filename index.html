@@ -908,7 +908,10 @@ span[id$="Count"] {
     <!-- Le QR s'affichera ici quand on cliquera sur "QR BorderForce" -->
   </div>
 
-  <button id="effacerFiches" class="red">Effacer toutes les fiches</button>
+  <button id="effacerFiches" type="button" class="red">
+  Effacer toutes les fiches
+</button>
+
 </div>
   </div>
 </div>
@@ -1205,6 +1208,14 @@ if (qrDiv) {
       if(document.getElementById('qrcode')) document.getElementById('qrcode').innerHTML='';
       localStorage.removeItem('moyensData');
       localStorage.removeItem('siteSelection');
+	   localStorage.removeItem('fichesESI');
+	    // On vide l’historique à l’écran si la fonction existe
+    if (typeof afficherHistorique === 'function') {
+      afficherHistorique();
+    }
+    // On nettoie le QR des fiches identité
+    const qrFiche = document.getElementById('qrFicheContainer');
+    if (qrFiche) qrFiche.innerHTML = '';
 	   displaySelectedSite();
        filtrerCompteurs();
     });
@@ -1450,6 +1461,7 @@ document.getElementById('suitesDonnees').value = fiche.suitesDonnees || '';
     localStorage.setItem('fichesESI', JSON.stringify(fiches));
     afficherHistorique();
 }
+
 function genererQrFiche(index) {
   const fiches = JSON.parse(localStorage.getItem("fichesESI") || "[]");
   const fiche = fiches[index];
@@ -1970,6 +1982,35 @@ function attachNatAutocomplete(input) {
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.nat-autocomplete').forEach(attachNatAutocomplete);
 });
+
+// ==============================
+//  Bouton : Effacer toutes les fiches
+// ==============================
+document.addEventListener("DOMContentLoaded", () => {
+  const btnEffacer = document.getElementById("effacerFiches");
+  if (!btnEffacer) return;
+
+  btnEffacer.addEventListener("click", () => {
+    if (!confirm("Voulez-vous vraiment effacer toutes les fiches ?")) {
+      return;
+    }
+
+    // On supprime la clé utilisée pour stocker les fiches
+    localStorage.removeItem("fichesESI");
+
+    // On vide l'historique à l'écran
+    if (typeof afficherHistorique === "function") {
+      afficherHistorique();
+    }
+
+    // On efface aussi le QR éventuel affiché
+    const qrDiv = document.getElementById("qrFicheContainer");
+    if (qrDiv) qrDiv.innerHTML = "";
+
+    alert("Toutes les fiches ont été effacées.");
+  });
+});
+
 </script>
 </body>
 </html>
