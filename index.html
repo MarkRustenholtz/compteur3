@@ -1451,109 +1451,112 @@ document.getElementById('suitesDonnees').value = fiche.suitesDonnees || '';
     afficherHistorique();
 }
 function genererQrFiche(index) {
-  const fiches = JSON.parse(localStorage.getItem('fichesESI') || '[]');
+  const fiches = JSON.parse(localStorage.getItem("fichesESI") || "[]");
   const fiche = fiches[index];
   if (!fiche) {
     alert("Fiche introuvable.");
     return;
   }
 
-  // Fonction pour tronquer les textes longs
-  function truncate(text, maxLen) {
-    if (!text) return "";
-    return text.length > maxLen ? text.substring(0, maxLen) + "..." : text;
+  // Sécurité : vérifier que la lib QRCode est bien là
+  if (typeof QRCode === "undefined") {
+    alert("Erreur : librairie QRCode non chargée.");
+    return;
   }
 
-  // Format texte ultra-compact avec troncature
-  const dataCompact = [
-    "DN:" + (fiche.dateNaissance || ""),
-    "NAT:" + truncate(fiche.nationalite, 20),
-    "SEX:" + (fiche.sexe ? fiche.sexe.charAt(0) : ""), // Juste M/F/A
-    "H:" + (fiche.heure || ""),
-    "LIEU:" + truncate(fiche.lieuInterpellation, 50),
-    "SUIT:" + truncate(fiche.suitesDonnees, 80)
-  ].join("|");
+  // ⚙️ On prépare les champs nécessaires pour BorderForce
+  const cat   = (fiche.categorie || "").trim();              // ESI / PASSEUR
+  const h     = (fiche.heure || "").trim();                  // heure d'intervention
+  const dn    = (fiche.dateNaissance || "").trim();          // JJ/MM/AAAA
+  const lieu  = (fiche.lieuInterpellation || "").trim();
+  const suites= (fiche.suitesDonnees || "").trim();
+  const nat   = (fiche.nationalite || "").trim();
+  const sexe  = (fiche.sexe || "").trim();                   // Masculin / Féminin / Autre
 
-  const container = document.getElementById('qrFicheContainer');
+  // On évite les ";" dans les champs (remplacés par ",")
+  function clean(v) {
+    return v.replace(/;/g, ",");
+  }
+
+  // 🔗 Format compact attendu par BorderForce :
+  // ID;cat;heure;dateNaissance;lieu;suites;nat;sexe
+  const brut =
+    "ID;" +
+    [
+      clean(cat),
+      clean(h),
+      clean(dn),
+      clean(lieu),
+      clean(suites),
+      clean(nat),
+      clean(sexe)
+    ].join(";");
+
+  // 🔒 Encodage URI pour bien gérer accents, apostrophes, retour à la ligne, etc.
+  const texteEncode = encodeURIComponent(brut);
+
+  const container = document.getElementById("qrFicheContainer");
   if (!container) {
     alert("Impossible de trouver #qrFicheContainer");
     return;
   }
 
-  // Efface l'ancien contenu
+  // On efface l'ancien contenu
   container.innerHTML = "";
 
-  // Petit titre
+  // Titre au-dessus du QR
   const titre = document.createElement("h3");
-  titre.textContent = `QR Fiche #${index + 1} (${fiche.categorie})`;
+  titre.textContent = `QR Fiche #${index + 1} (${cat || "?"})`;
   titre.style.color = "#003366";
   titre.style.marginTop = "20px";
   container.appendChild(titre);
 
   const info = document.createElement("p");
-  info.textContent = "À scanner avec BorderForce";
+  info.textContent = "À scanner avec BorderForce (section QR)";
   info.style.fontWeight = "bold";
-  info.style.marginBottom = "15px";
+  info.style.marginBottom = "10px";
   container.appendChild(info);
 
-  // Afficher la taille des données
+  // Info taille (pour debug)
   const sizeInfo = document.createElement("p");
-  sizeInfo.textContent = `Taille: ${dataCompact.length} caractères`;
+  sizeInfo.textContent = `Taille : ${brut.length} caractères`;
   sizeInfo.style.fontSize = "0.85em";
-  sizeInfo.style.color = dataCompact.length > 200 ? "#e67e22" : "#27ae60";
+  sizeInfo.style.color = "#27ae60";
   sizeInfo.style.fontWeight = "bold";
   container.appendChild(sizeInfo);
 
-  // Avertissement si données tronquées
-  if (fiche.lieuInterpellation?.length > 50 || fiche.suitesDonnees?.length > 80) {
-    const warning = document.createElement("p");
-    warning.textContent = "⚠️ Textes tronqués pour tenir dans le QR";
-    warning.style.fontSize = "0.85em";
-    warning.style.color = "#e67e22";
-    container.appendChild(warning);
-  }
-
-  // Div dédiée au QR avec un ID unique
+  // Div qui accueillera le QR
   const qrBox = document.createElement("div");
-  const qrId = 'qr-fiche-' + index + '-' + Date.now();
-  qrBox.id = qrId;
   qrBox.style.display = "flex";
   qrBox.style.justifyContent = "center";
   qrBox.style.marginBottom = "20px";
   container.appendChild(qrBox);
 
-  // Génération du QR avec vérification et délai
-  setTimeout(() => {
-    try {
-      if (typeof QRCode === 'undefined') {
-        container.innerHTML = "<p style='color:red;'>Erreur : bibliothèque QRCode non chargée</p>";
-        return;
-      }
-      
-      const qrcode = new QRCode(document.getElementById(qrId), {
-        text: dataCompact,
-        width: 280,
-        height: 280,
-        colorDark: "#000000",
-        colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.L  // Niveau le plus bas pour capacité maximale
-      });
-      
-      // Message de succès
-      const success = document.createElement("p");
-      success.textContent = "✅ QR code généré avec succès";
-      success.style.color = "#27ae60";
-      success.style.fontWeight = "bold";
-      success.style.marginTop = "10px";
-      container.appendChild(success);
-      
-    } catch(error) {
-      console.error("Erreur génération QR:", error);
-      container.innerHTML += `<p style='color:red;'>❌ Erreur : ${error.message}</p>`;
-      container.innerHTML += `<p style='color:#666; font-size:0.9em;'>Lieu: ${fiche.lieuInterpellation?.length || 0} car. | Suites: ${fiche.suitesDonnees?.length || 0} car.</p>`;
-    }
-  }, 100);
+  try {
+    new QRCode(qrBox, {
+      text: texteEncode,                // 👈 encodé (accents OK)
+      width: 280,
+      height: 280,
+      colorDark: "#000000",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.L
+    });
+
+    const success = document.createElement("p");
+    success.textContent = "✅ QR code généré avec succès";
+    success.style.color = "#27ae60";
+    success.style.fontWeight = "bold";
+    success.style.marginTop = "5px";
+    container.appendChild(success);
+  } catch (error) {
+    console.error("Erreur génération QR:", error);
+    const err = document.createElement("p");
+    err.textContent = "❌ Erreur : " + error.message;
+    err.style.color = "red";
+    container.appendChild(err);
+  }
 }
+
 
 afficherHistorique();
 /* ---------- BLOC JS COMPLET POUR ESI+VISA (195 pays) ---------- */
